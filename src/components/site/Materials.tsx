@@ -54,12 +54,12 @@ export function Materials() {
             We&apos;ll take care of it for you! Your all-in-one home helper — from minor repairs to furniture assembly.
           </p>
           <div className="section-pills reveal">
-            <Button href="/#projects" className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
-              See our work
-            </Button>
-            <ContactCta variant="outline" className="border-[#1a1a18]/18 text-[#1a1a18] hover:bg-white/50">
+            <ContactCta className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
               Get a quote
             </ContactCta>
+            <Button href="/#projects" variant="outline" className="border-[#1a1a18]/18 text-[#1a1a18] hover:bg-white/50">
+              See our work
+            </Button>
           </div>
         </div>
       </div>

@@ -59,20 +59,20 @@ export function Services() {
                   ) : null}
                   <div className="pointer-events-auto mt-8 flex flex-wrap justify-center gap-3">
                     <Link
-                      to="/projects"
+                      to={item.to}
                       className={`inline-flex h-11 items-center justify-center rounded-full px-5 text-[14px] font-medium ${
                         isDark ? "bg-white text-[#1d1d1f]" : "bg-[#1d1d1f] text-white"
                       }`}
                     >
-                      See projects
+                      Get a quote
                     </Link>
                     <Link
-                      to={item.to}
+                      to="/projects"
                       className={`inline-flex h-11 items-center justify-center rounded-full border px-5 text-[14px] font-medium transition-opacity hover:opacity-80 ${
-                        isDark ? "border-white/30 text-white" : "border-black/20 text-[#1d1d1f]"
+                        isDark ? "border-white/30 text-white hover:bg-white/8" : "border-black/20 text-[#1d1d1f] hover:bg-black/5"
                       }`}
                     >
-                      Get a quote
+                      See projects
                     </Link>
                   </div>
                 </div>
@@ -90,9 +90,14 @@ export function Services() {
           <p className="type-kicker text-[#f1c7b8]">Whole-home transformation</p>
           <h3 className="type-section-heading type-display-light mt-5">{remodelItem.title}</h3>
           <p className="type-slogan type-slogan-light mt-4 max-w-2xl">{remodelItem.description}</p>
-          <Link to="/projects" className="mt-8 inline-flex h-11 items-center justify-center rounded-full bg-white px-6 text-[14px] font-medium text-[#1d1d1f]">
-            See projects
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link to={remodelItem.to} className="inline-flex h-11 items-center justify-center rounded-full bg-white px-6 text-[14px] font-medium text-[#1d1d1f]">
+              Get a quote
+            </Link>
+            <Link to="/projects" className="inline-flex h-11 items-center justify-center rounded-full border border-white/30 px-6 text-[14px] font-medium text-white transition-colors hover:bg-white/8">
+              See projects
+            </Link>
+          </div>
         </div>
       </article>
     </section>

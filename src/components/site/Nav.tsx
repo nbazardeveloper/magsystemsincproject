@@ -45,7 +45,7 @@ export function Nav() {
           <a
             href={`tel:${phoneNumber.replace(/[^\d+]/g, "")}`}
             aria-label="Call MAG SYSTEM INC"
-            className="absolute left-3 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-white/90 transition-opacity hover:opacity-100 md:hidden"
+            className="absolute right-3 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/20 text-white/90 transition-opacity hover:opacity-100 md:hidden"
           >
             <Phone className="h-3.5 w-3.5" />
           </a>

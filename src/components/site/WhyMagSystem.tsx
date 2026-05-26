@@ -41,12 +41,12 @@ export function WhyMagSystem() {
               We work as if it's for ourselves — attention to every detail
             </p>
             <div className="section-pills reveal mt-6">
-              <Button href="/#projects" className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
+              <ContactCta className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
+                Get a quote
+              </ContactCta>
+              <Button href="/#projects" variant="outline" className="border-white/30 text-white hover:bg-white/8">
                 See our work
               </Button>
-              <ContactCta variant="outline" className="border-white/30 text-white hover:bg-white/8">
-                Get a free consultation
-              </ContactCta>
             </div>
           </div>
         </div>

@@ -28,10 +28,10 @@ export function Hero() {
           Serving Manatee County & Sarasota County, Florida.
         </p>
         <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button href="/#projects" variant="filled">See our work</Button>
-          <ContactCta variant="outline" className="border-[#1d1d1f]/25 text-[#1d1d1f] hover:bg-[#1d1d1f]/6">
+          <ContactCta className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
             Get a quote
           </ContactCta>
+          <Button href="/#projects" variant="outline" className="border-[#1d1d1f]/25 text-[#1d1d1f] hover:bg-[#1d1d1f]/6">See our work</Button>
         </div>
       </div>
     </section>
