@@ -1,0 +1,267 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Apple-inspired palette */
+  --background: oklch(1 0 0);                    /* #FFFFFF */
+  --foreground: oklch(0.18 0.005 285);           /* #1d1d1f */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.005 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.005 285);
+  --primary: #ff4e27;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.18 0.005 285);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.55 0.005 285);     /* #6e6e73 */
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.18 0.005 285);
+  --destructive: oklch(0.62 0.22 28);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.002 285);               /* #d2d2d7 */
+  --input: oklch(0.92 0.002 285);
+  --ring: #ff4e27;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.011em;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.028em;
+    font-weight: 600;
+  }
+}
+
+@layer utilities {
+  .section-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 48px;
+  }
+
+  .section-divider {
+    border-bottom: 3px solid #fff;
+  }
+
+  .section-copy {
+    padding: 5rem 2rem;
+  }
+
+  .section-copy-inner {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+  }
+
+  .section-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .section-label {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #c0583a;
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    font-weight: 700;
+    color: #1a1a18;
+  }
+
+  .section-slogan {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #6b6b68;
+  }
+
+  .section-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .type-kicker {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .type-kicker-accent {
+    color: #c0583a;
+  }
+
+  .type-kicker-light {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .type-kicker-muted {
+    color: #6b6b68;
+  }
+
+  .type-display {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+  }
+
+  .type-section-heading {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+  }
+
+  .type-display-dark {
+    color: #1a1a18;
+  }
+
+  .type-display-light {
+    color: #fff;
+  }
+
+  .type-slogan {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .type-slogan-dark {
+    color: #6b6b68;
+  }
+
+  .type-slogan-light {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .type-body {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .type-body-dark {
+    color: #6b6b68;
+  }
+
+  .type-body-light {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .type-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .type-label-muted {
+    color: #6b6b68;
+  }
+
+  .type-card-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.028em;
+  }
+
+  .type-form-label {
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b6b68;
+  }
+}
+
+/* Fade-in on scroll utility */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes trust-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 2.5px)); }
+}
+
+.reveal {
+  opacity: 0;
+}
+.reveal.in-view {
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.trust-logo {
+  filter: grayscale(1) brightness(0) saturate(0);
+}
+
+.group:hover .trust-logo,
+.group:focus-within .trust-logo {
+  filter: none;
+}
+
+.trust-marquee-track {
+  animation: trust-marquee 24s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trust-marquee-track {
+    animation: none;
+  }
+}
