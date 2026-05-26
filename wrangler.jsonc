@@ -1,7 +1,18 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
+  "name": "magsystemsincproject",
+  "account_id": "db81af6d766eee20e6a0521dbeac2ed1",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "vars": {
+    "SUPABASE_URL": "https://dhvkavncrxfqmxjcbynr.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_HrRaLYkQeCo-Df309gaEzg_SG5N0BeG",
+    "VITE_SUPABASE_URL": "https://dhvkavncrxfqmxjcbynr.supabase.co",
+    "VITE_SUPABASE_PROJECT_ID": "dhvkavncrxfqmxjcbynr",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_HrRaLYkQeCo-Df309gaEzg_SG5N0BeG"
+  }
+  // SUPABASE_SERVICE_ROLE_KEY — добавь вручную в Cloudflare Dashboard
+  // Workers & Pages → magsystemsincproject → Settings → Variables and Secrets
+  // Тип: Secret (зашифрованный) — тогда не будет удаляться при деплое
 }
