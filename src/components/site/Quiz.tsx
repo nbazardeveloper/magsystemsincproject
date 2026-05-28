@@ -16,25 +16,34 @@ import scandinavianStyleImage from "@/images/quiz_kitchen/Scandinavian.webp";
 import { Button } from "./Button";
 
 type Source = "kitchen" | "bathroom" | "full-remodel";
+type StyleOption = {
+  name: string;
+  image?: string;
+};
 
-const STYLE_OPTIONS = [
+const KITCHEN_STYLE_OPTIONS: StyleOption[] = [
   { name: "Modern", image: modernStyleImage },
   { name: "Scandinavian", image: scandinavianStyleImage },
   { name: "Classic", image: classicStyleImage },
   { name: "Industrial", image: industrialStyleImage },
   { name: "Minimalist", image: minimalistStyleImage },
   { name: "Contemporary", image: contemporaryStyleImage },
-] as const;
-const BATHROOM_STYLE_OPTIONS = [
+  { name: "Not sure" },
+];
+const BATHROOM_STYLE_OPTIONS: StyleOption[] = [
   { name: "Modern", image: bathroomModernStyleImage },
   { name: "Scandinavian", image: bathroomScandinavianStyleImage },
   { name: "Classic", image: bathroomClassicStyleImage },
   { name: "Industrial", image: bathroomIndustrialStyleImage },
   { name: "Minimalist", image: bathroomMinimalistStyleImage },
   { name: "Spa / Zen", image: bathroomSpaStyleImage },
-] as const;
-const SIZES = ["Under 50 sq ft", "50–80 sq ft", "80–120 sq ft", "Over 120 sq ft"];
-const SCOPE = ["Full remodel", "Just tile", "Plumbing fixtures", "Cabinets & vanity", "Shower / bathtub", "Lighting"];
+  { name: "Not sure yet" },
+] ;
+const DEFAULT_SIZES = ["Under 50 sq ft", "50–80 sq ft", "80–120 sq ft", "Over 120 sq ft"];
+const KITCHEN_SIZES = ["Less than 150 sq ft", "150-180 sq ft", "180-210 sq ft", "More than 210 sq ft"];
+const DEFAULT_SCOPE = ["Full remodel", "Just tile", "Plumbing", "Cabinets & vanity", "Shower / bathtub", "Lighting / mirror", "Other"];
+const KITCHEN_LAYOUTS = ["One-wall", "L-shape", "U-shape", "With an island", "Not sure"];
+const KITCHEN_MATERIALS = ["MDF", "Solid wood", "Laminate", "Acrylic", "Not sure yet"];
 const TIMELINE = ["As soon as possible", "Within 1–3 months", "In 3–6 months", "Just exploring options"];
 
 export function Quiz({ source }: { source: Source }) {
@@ -43,15 +52,19 @@ export function Quiz({ source }: { source: Source }) {
   const [style, setStyle] = useState("");
   const [size, setSize] = useState("");
   const [scope, setScope] = useState<string[]>([]);
+  const [materials, setMaterials] = useState("");
   const [timeline, setTimeline] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
   const [err, setErr] = useState("");
 
-  const total = 5;
+  const isKitchen = source === "kitchen";
+  const total = isKitchen ? 6 : 5;
   const progress = ((step + 1) / total) * 100;
-  const styleOptions = source === "bathroom" ? BATHROOM_STYLE_OPTIONS : STYLE_OPTIONS;
+  const styleOptions = source === "bathroom" ? BATHROOM_STYLE_OPTIONS : KITCHEN_STYLE_OPTIONS;
+  const sizeOptions = isKitchen ? KITCHEN_SIZES : DEFAULT_SIZES;
+  const scopeOptions = isKitchen ? KITCHEN_LAYOUTS : DEFAULT_SCOPE;
 
   const toggleScope = (s: string) =>
     setScope((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
@@ -60,7 +73,8 @@ export function Quiz({ source }: { source: Source }) {
     if (step === 0) return !!style;
     if (step === 1) return !!size;
     if (step === 2) return scope.length > 0;
-    if (step === 3) return !!timeline;
+    if (step === 3) return isKitchen ? !!materials : !!timeline;
+    if (step === 4 && isKitchen) return !!timeline;
     return true;
   };
 
@@ -69,7 +83,7 @@ export function Quiz({ source }: { source: Source }) {
     setStatus("sending");
     setErr("");
     try {
-      await submit({ data: { name, phone, style, size, scope, timeline, page_source: source } });
+      await submit({ data: { name, phone, style, size, scope, materials, timeline, page_source: source } });
       setStatus("ok");
     } catch (e) {
       setStatus("err");
@@ -95,7 +109,7 @@ export function Quiz({ source }: { source: Source }) {
       <div className="mx-auto w-full max-w-[1200px] px-5 md:px-12">
         <div className="text-center mb-12">
           <h2 className="type-section-heading type-display-dark">
-            Answer 5 questions and find out the cost of your renovation
+            Answer {total} questions and find out the cost of your renovation
           </h2>
           <p className="type-slogan type-slogan-dark mt-3">
             Get a free custom design and a $1,000 discount.
@@ -128,9 +142,15 @@ export function Quiz({ source }: { source: Source }) {
                       style === option.name ? "border-primary" : "border-border hover:border-foreground/30"
                     }`}
                   >
-                    <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
-                      <img src={option.image} alt={option.name} className="h-full w-full object-cover" />
-                    </div>
+                    {option.image ? (
+                      <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
+                        <img src={option.image} alt={option.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                      </div>
+                    ) : (
+                      <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary px-4 text-center text-[16px] font-medium text-[#1a1a18]">
+                        {option.name}
+                      </div>
+                    )}
                     <div className="px-2 py-3 text-[14px] font-medium text-[#1a1a18]">{option.name}</div>
                   </button>
                 ))}
@@ -140,9 +160,9 @@ export function Quiz({ source }: { source: Source }) {
 
           {step === 1 && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">What's the size of your {source === "kitchen" ? "kitchen" : "space"}?</h3>
+              <h3 className="type-card-title text-[#1a1a18]">What's the size of your {isKitchen ? "kitchen" : "space"}?</h3>
               <div className="mt-8 grid gap-3 flex-1">
-                {SIZES.map((s) => (
+                {sizeOptions.map((s) => (
                   <Tile key={s} active={size === s} onClick={() => setSize(s)}>{s}</Tile>
                 ))}
               </div>
@@ -152,16 +172,39 @@ export function Quiz({ source }: { source: Source }) {
           {step === 2 && (
             <>
               <h3 className="type-card-title text-[#1a1a18]">What do you plan to update?</h3>
-              <p className="type-body type-body-dark mt-2">Select all that apply.</p>
+              <p className="type-body type-body-dark mt-2">{isKitchen ? "Choose the closest option." : "Select all that apply."}</p>
               <div className="mt-8 grid gap-3 sm:grid-cols-2 flex-1">
-                {SCOPE.map((s) => (
-                  <Tile key={s} active={scope.includes(s)} onClick={() => toggleScope(s)}>{s}</Tile>
+                {scopeOptions.map((s) => (
+                  <Tile
+                    key={s}
+                    active={scope.includes(s)}
+                    onClick={() => (isKitchen ? setScope([s]) : toggleScope(s))}
+                  >
+                    {s}
+                  </Tile>
                 ))}
               </div>
             </>
           )}
 
           {step === 3 && (
+            <>
+              <h3 className="type-card-title text-[#1a1a18]">
+                {isKitchen ? "What materials do you prefer?" : "When are you planning to start?"}
+              </h3>
+              <div className="mt-8 grid gap-3 flex-1">
+                {isKitchen
+                  ? KITCHEN_MATERIALS.map((material) => (
+                      <Tile key={material} active={materials === material} onClick={() => setMaterials(material)}>{material}</Tile>
+                    ))
+                  : TIMELINE.map((t) => (
+                      <Tile key={t} active={timeline === t} onClick={() => setTimeline(t)}>{t}</Tile>
+                    ))}
+              </div>
+            </>
+          )}
+
+          {step === 4 && isKitchen && (
             <>
               <h3 className="type-card-title text-[#1a1a18]">When are you planning to start?</h3>
               <div className="mt-8 grid gap-3 flex-1">
@@ -172,7 +215,7 @@ export function Quiz({ source }: { source: Source }) {
             </>
           )}
 
-          {step === 4 && (
+          {((step === 4 && !isKitchen) || (step === 5 && isKitchen)) && (
             <>
               <h3 className="type-card-title text-[#1a1a18]">Almost done! Where should we send your estimate?</h3>
               <div className="mt-8 space-y-4 flex-1">

@@ -27,6 +27,7 @@ type QuizLead = {
   style: string | null;
   size: string | null;
   scope: string[] | null;
+  materials: string | null;
   timeline: string | null;
   page_source: string;
   status: "new" | "contacted" | "closed";
@@ -40,9 +41,19 @@ type Project = {
   description: string | null;
   before_image_url: string | null;
   after_image_url: string | null;
-  category: "kitchen" | "bathroom" | "full-remodel" | "handyman" | "tile" | "flooring";
+  category: string;
   created_at: string;
 };
+
+const DEFAULT_PROJECT_CATEGORIES = [
+  "kitchen",
+  "bathroom",
+  "full-remodel",
+  "handyman",
+  "tile",
+  "flooring",
+  "other",
+];
 
 type TestimonialRecord = {
   id: string;
@@ -245,6 +256,7 @@ function QuizTab() {
             <Row k="Style" v={l.style ?? "—"} />
             <Row k="Size" v={l.size ?? "—"} />
             <Row k="Scope" v={(l.scope ?? []).join(", ") || "—"} />
+            <Row k="Materials" v={l.materials ?? "—"} />
             <Row k="Timeline" v={l.timeline ?? "—"} />
           </dl>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -269,12 +281,27 @@ function ProjectsTab() {
   const [items, setItems] = useState<Project[]>([]);
   const [editing, setEditing] = useState<Partial<Project> | null>(null);
   const [saving, setSaving] = useState(false);
+  const categoryOptions = Array.from(
+    new Set([
+      ...DEFAULT_PROJECT_CATEGORIES,
+      ...items.map((item) => item.category).filter(Boolean),
+      editing?.category?.trim() ?? "",
+    ].filter(Boolean)),
+  );
 
   const load = useCallback(async () => {
     const { data } = await supabase.from("projects").select("*").order("created_at", { ascending: false });
     setItems((data ?? []) as Project[]);
   }, []);
   useEffect(() => { load(); }, [load]);
+
+  const getProjectSaveErrorMessage = (message: string) => {
+    if (message.includes("invalid input value for enum project_category")) {
+      return "The database is still using the old fixed category enum. Apply the latest Supabase migration first, then try again.";
+    }
+
+    return message;
+  };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     const ext = file.name.split(".").pop() || "jpg";
@@ -287,24 +314,39 @@ function ProjectsTab() {
 
   const save = async () => {
     if (!editing) return;
+    const title = editing.title?.trim();
+    if (!title) {
+      alert("Please enter a project title");
+      return;
+    }
     if (!editing.after_image_url) {
       alert("Please upload a project image");
       return;
     }
+    const category = editing.category?.trim();
+    if (!category) {
+      alert("Please enter a project category");
+      return;
+    }
     setSaving(true);
     const payload = {
-      title: editing.title || null,
+      title,
       location: "",
       description: null,
       before_image_url: null,
       after_image_url: editing.after_image_url,
-      category: (editing.category ?? "kitchen") as Project["category"],
+      category,
     };
-    if (editing.id) {
-      await supabase.from("projects").update(payload).eq("id", editing.id);
-    } else {
-      await supabase.from("projects").insert(payload);
+    const result = editing.id
+      ? await supabase.from("projects").update(payload).eq("id", editing.id)
+      : await supabase.from("projects").insert(payload);
+
+    if (result.error) {
+      alert(getProjectSaveErrorMessage(result.error.message));
+      setSaving(false);
+      return;
     }
+
     setSaving(false);
     setEditing(null);
     load();
@@ -351,21 +393,24 @@ function ProjectsTab() {
               <button onClick={() => setEditing(null)} className="text-muted-foreground hover:text-foreground">✕</button>
             </div>
             <div className="p-6 space-y-4">
-              <Input label="Title (optional)" value={editing.title ?? ""} onChange={(v) => setEditing({ ...editing, title: v })} />
+              <Input label="Title" value={editing.title ?? ""} onChange={(v) => setEditing({ ...editing, title: v })} />
               <div>
                 <label className="block text-[12px] uppercase tracking-wider text-muted-foreground mb-2">Category</label>
-                <select
-                  value={editing.category ?? "kitchen"}
-                  onChange={(e) => setEditing({ ...editing, category: e.target.value as Project["category"] })}
+                <input
+                  list="project-category-options"
+                  value={editing.category ?? ""}
+                  onChange={(e) => setEditing({ ...editing, category: e.target.value })}
+                  placeholder="Type a category or choose an existing one"
                   className="w-full h-11 px-4 rounded-lg border border-border bg-background text-[14px]"
-                >
-                  <option value="kitchen">Kitchen</option>
-                  <option value="bathroom">Bathroom</option>
-                  <option value="full-remodel">Full remodel</option>
-                  <option value="handyman">Handyman services</option>
-                  <option value="tile">Tile replacement & installation</option>
-                  <option value="flooring">Flooring installation</option>
-                </select>
+                />
+                <datalist id="project-category-options">
+                  {categoryOptions.map((category) => (
+                    <option key={category} value={category} />
+                  ))}
+                </datalist>
+                <p className="mt-2 text-[12px] text-muted-foreground">
+                  Includes `other`. You can also type a completely new category here.
+                </p>
               </div>
               <ImageField
                 label="Project image *"

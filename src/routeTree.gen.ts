@@ -10,12 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TileRouteImport } from './routes/tile'
+import { Route as TermsOfUseRouteImport } from './routes/terms-of-use'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as KitchenRouteImport } from './routes/kitchen'
 import { Route as HandymanRouteImport } from './routes/handyman'
 import { Route as FullRemodelRouteImport } from './routes/full-remodel'
 import { Route as FlooringRouteImport } from './routes/flooring'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BathroomRouteImport } from './routes/bathroom'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -26,6 +29,11 @@ const TileRoute = TileRouteImport.update({
   path: '/tile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsOfUseRoute = TermsOfUseRouteImport.update({
+  id: '/terms-of-use',
+  path: '/terms-of-use',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -34,6 +42,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KitchenRoute = KitchenRouteImport.update({
@@ -54,6 +67,11 @@ const FullRemodelRoute = FullRemodelRouteImport.update({
 const FlooringRoute = FlooringRouteImport.update({
   id: '/flooring',
   path: '/flooring',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BathroomRoute = BathroomRouteImport.update({
@@ -80,12 +98,15 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bathroom': typeof BathroomRoute
+  '/contact': typeof ContactRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
   '/kitchen': typeof KitchenRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/': typeof AdminIndexRoute
@@ -93,12 +114,15 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bathroom': typeof BathroomRoute
+  '/contact': typeof ContactRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
   '/kitchen': typeof KitchenRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin': typeof AdminIndexRoute
@@ -107,12 +131,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bathroom': typeof BathroomRoute
+  '/contact': typeof ContactRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
   '/kitchen': typeof KitchenRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/': typeof AdminIndexRoute
@@ -122,12 +149,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/bathroom'
+    | '/contact'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
     | '/kitchen'
+    | '/privacy-policy'
     | '/projects'
     | '/services'
+    | '/terms-of-use'
     | '/tile'
     | '/admin/dashboard'
     | '/admin/'
@@ -135,12 +165,15 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/bathroom'
+    | '/contact'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
     | '/kitchen'
+    | '/privacy-policy'
     | '/projects'
     | '/services'
+    | '/terms-of-use'
     | '/tile'
     | '/admin/dashboard'
     | '/admin'
@@ -148,12 +181,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/bathroom'
+    | '/contact'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
     | '/kitchen'
+    | '/privacy-policy'
     | '/projects'
     | '/services'
+    | '/terms-of-use'
     | '/tile'
     | '/admin/dashboard'
     | '/admin/'
@@ -162,12 +198,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BathroomRoute: typeof BathroomRoute
+  ContactRoute: typeof ContactRoute
   FlooringRoute: typeof FlooringRoute
   FullRemodelRoute: typeof FullRemodelRoute
   HandymanRoute: typeof HandymanRoute
   KitchenRoute: typeof KitchenRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
+  TermsOfUseRoute: typeof TermsOfUseRoute
   TileRoute: typeof TileRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -182,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms-of-use': {
+      id: '/terms-of-use'
+      path: '/terms-of-use'
+      fullPath: '/terms-of-use'
+      preLoaderRoute: typeof TermsOfUseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -194,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kitchen': {
@@ -222,6 +275,13 @@ declare module '@tanstack/react-router' {
       path: '/flooring'
       fullPath: '/flooring'
       preLoaderRoute: typeof FlooringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bathroom': {
@@ -258,12 +318,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BathroomRoute: BathroomRoute,
+  ContactRoute: ContactRoute,
   FlooringRoute: FlooringRoute,
   FullRemodelRoute: FullRemodelRoute,
   HandymanRoute: HandymanRoute,
   KitchenRoute: KitchenRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
+  TermsOfUseRoute: TermsOfUseRoute,
   TileRoute: TileRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,

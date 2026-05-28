@@ -9,9 +9,13 @@ export const Route = createFileRoute("/handyman")({
     meta: [
       { title: "Handyman Services in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Professional handyman services in Manatee County and Sarasota County, Florida. Repairs, installations, and maintenance handled by experienced tradespeople." },
-      { property: "og:title", content: "Handyman Services — MagSystem Inc" },
-      { property: "og:description", content: "Professional handyman services in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Handyman Services in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Professional handyman services in Manatee County and Sarasota County, Florida. Repairs, installations, and maintenance handled by experienced tradespeople." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/handyman" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/handyman" }],
   }),
   component: HandymanPage,
 });

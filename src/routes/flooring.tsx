@@ -9,9 +9,13 @@ export const Route = createFileRoute("/flooring")({
     meta: [
       { title: "Flooring Installation in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Professional flooring installation in Manatee County and Sarasota County, Florida. Hardwood, LVP, tile, and more." },
-      { property: "og:title", content: "Flooring Installation — MagSystem Inc" },
-      { property: "og:description", content: "Professional flooring installation in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Flooring Installation in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Professional flooring installation in Manatee County and Sarasota County, Florida. Hardwood, LVP, tile, and more." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/flooring" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/flooring" }],
   }),
   component: FlooringPage,
 });

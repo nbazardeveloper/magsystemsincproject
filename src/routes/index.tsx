@@ -15,6 +15,31 @@ import { Locations } from "@/components/site/Locations";
 import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Mag System Inc — Kitchen & Bathroom Renovation in Manatee & Sarasota, FL" },
+      {
+        name: "description",
+        content:
+          "Stress-free kitchen and bathroom renovation, tile, flooring, and handyman services in Manatee County and Sarasota County, Florida. Free estimate. Work done by owners on-site.",
+      },
+      { property: "og:title", content: "Mag System Inc — Kitchen & Bathroom Renovation in Manatee & Sarasota, FL" },
+      {
+        property: "og:description",
+        content:
+          "Stress-free renovation in Manatee County and Sarasota County, Florida. Kitchen, bathroom, tile, flooring, and handyman — all work handled on-site by the owners.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Mag System Inc — Kitchen & Bathroom Renovation in Manatee & Sarasota, FL" },
+      {
+        name: "twitter:description",
+        content: "Stress-free renovation in Manatee County and Sarasota County, Florida.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/" }],
+  }),
   component: Index,
 });
 
@@ -29,7 +54,12 @@ function Index() {
         <WhyMagSystem />
         <Materials />
         <PartnersStrip />
-        <Projects limitOnePerCategory compactTopSpacing compactBottomSpacing seamGrid showCardProjectsLink />
+        <Projects
+          compactTopSpacing
+          compactBottomSpacing
+          showCardProjectsLink
+          carousel
+        />
         <Testimonial compactTopSpacing />
         <Stats />
         <FAQ />

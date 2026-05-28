@@ -50,14 +50,14 @@ export function Materials() {
           <h2 className="type-section-heading type-display-dark reveal">
             Handyman service.
           </h2>
-          <p className="type-slogan type-slogan-dark reveal max-w-2xl text-[1rem]">
+          <p className="type-slogan type-slogan-dark reveal max-w-2xl">
             We&apos;ll take care of it for you! Your all-in-one home helper — from minor repairs to furniture assembly.
           </p>
           <div className="section-pills reveal">
-            <ContactCta className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
+            <ContactCta className="border border-accent-brand bg-accent-brand text-white hover:bg-accent-brand-hover">
               Get a quote
             </ContactCta>
-            <Button href="/#projects" variant="outline" className="border-[#1a1a18]/18 text-[#1a1a18] hover:bg-white/50">
+            <Button href="/#projects" variant="outline" className="border-foreground/18 text-foreground hover:bg-white/50">
               See our work
             </Button>
           </div>
@@ -68,15 +68,15 @@ export function Materials() {
         {items.map((item) => (
           <article key={item.title} className="reveal bg-[#f5f2ee]">
             <div className="h-[280px] w-full overflow-hidden">
-              <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+              <img src={item.image} alt={item.title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
             </div>
             <div className="flex flex-col gap-4 px-7 pb-10 pt-8">
-              <p className="text-[11px] uppercase tracking-[0.1em] text-[#c0583a]">{item.number}</p>
-              <h3 className="text-[1.1rem] font-bold text-[#1a1a18]">{item.title}</h3>
-              <ul className="flex flex-col gap-2 text-[0.85rem] leading-[1.5] text-[#6b6b68]">
+              <p className="type-kicker type-kicker-accent">{item.number}</p>
+              <h3 className="type-body font-bold text-foreground">{item.title}</h3>
+              <ul className="flex flex-col gap-2 text-[13px] leading-relaxed text-muted-foreground">
                 {item.points.map((point) => (
                   <li key={point} className="flex items-start gap-2">
-                    <span className="shrink-0 text-[#c0583a]">-</span>
+                    <span className="shrink-0 text-accent-brand">–</span>
                     <span>{point}</span>
                   </li>
                 ))}

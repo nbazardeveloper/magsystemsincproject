@@ -14,7 +14,7 @@ export function ContactCta({
   onClick,
 }: ContactCtaProps) {
   return (
-    <Button href="/#contact" variant={variant} className={className} onClick={onClick}>
+    <Button to="/contact" variant={variant} className={className} onClick={onClick}>
       {children}
     </Button>
   );

@@ -9,9 +9,13 @@ export const Route = createFileRoute("/tile")({
     meta: [
       { title: "Tile Replacement & Installation in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Expert tile replacement and installation in Manatee County and Sarasota County, Florida. Floors, walls, showers, and backsplashes done right." },
-      { property: "og:title", content: "Tile Replacement & Installation — MagSystem Inc" },
-      { property: "og:description", content: "Expert tile replacement and installation in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Tile Replacement & Installation in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Expert tile replacement and installation in Manatee County and Sarasota County, Florida. Floors, walls, showers, and backsplashes done right." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/tile" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/tile" }],
   }),
   component: TilePage,
 });

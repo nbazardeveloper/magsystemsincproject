@@ -89,7 +89,7 @@ export function FAQ() {
           <h2 className="type-section-heading type-display-dark reveal">
             Frequently asked questions
           </h2>
-          <p className="type-slogan type-slogan-dark reveal max-w-2xl text-[1rem]">
+          <p className="type-slogan type-slogan-dark reveal max-w-2xl">
             Clear answers before the first day on site.
           </p>
         </div>

@@ -94,11 +94,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const LOCAL_BUSINESS_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Mag System Inc",
+  "url": "https://magsysteminc.com",
+  "telephone": "+17542869559",
+  "email": "magsysteminc@gmail.com",
+  "description": "Stress-free kitchen and bathroom renovation, tile, flooring, and handyman services in Manatee County and Sarasota County, Florida.",
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Manatee County, Florida" },
+    { "@type": "AdministrativeArea", "name": "Sarasota County, Florida" },
+  ],
+  "serviceType": [
+    "Kitchen Renovation",
+    "Bathroom Renovation",
+    "Full Home Remodel",
+    "Handyman Services",
+    "Tile Installation",
+    "Flooring Installation",
+  ],
+  "priceRange": "$$",
+  "sameAs": [],
+};
+
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_SCHEMA) }}
+        />
       </head>
       <body>
         {children}

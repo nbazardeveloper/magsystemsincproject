@@ -53,6 +53,7 @@ export function Testimonial({ compactTopSpacing = false }: { compactTopSpacing?:
       const { data } = await supabase.from("testimonials").select("*").order("created_at", { ascending: true });
       if (!cancelled && data && data.length > 0) {
         setItems(data as TestimonialItem[]);
+        setIndex(0);
       }
     })();
 
@@ -60,12 +61,6 @@ export function Testimonial({ compactTopSpacing = false }: { compactTopSpacing?:
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    if (index >= items.length) {
-      setIndex(0);
-    }
-  }, [index, items.length]);
 
   const active = items[index] ?? fallbackTestimonials[0];
   const initials = active.name
@@ -87,6 +82,8 @@ export function Testimonial({ compactTopSpacing = false }: { compactTopSpacing?:
     <section className={`relative overflow-hidden bg-[#f5f5f7] ${sectionSpacing}`}>
       <img
         src={reviewImage}
+        loading="lazy"
+        decoding="async"
         alt=""
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover"

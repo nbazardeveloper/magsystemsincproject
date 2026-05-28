@@ -30,7 +30,7 @@ export function Footer() {
           <ul className="space-y-2">
             <li><a href="/#about" className="transition-colors hover:text-white">About</a></li>
             <li><a href="/#projects" className="transition-colors hover:text-white">Projects</a></li>
-            <li><a href="/#contact" className="transition-colors hover:text-white">Contact</a></li>
+            <li><Link to="/contact" className="transition-colors hover:text-white">Contact</Link></li>
           </ul>
         </div>
         <div className="bg-[#1d1d1f] px-7 py-10 text-[13px] text-white/72 md:px-8">
@@ -44,7 +44,11 @@ export function Footer() {
       <div className="border-t border-white/12">
         <div className="flex w-full flex-col items-center justify-between gap-3 px-8 py-5 text-[12px] text-white/52 md:flex-row md:px-12">
           <span>© {new Date().getFullYear()} MAG SYSTEM INC. All rights reserved.</span>
-          <Link to="/admin" className="transition-colors hover:text-white">Admin</Link>
+          <div className="flex items-center gap-5">
+            <Link to="/privacy-policy" className="transition-colors hover:text-white">Privacy Policy</Link>
+            <Link to="/terms-of-use" className="transition-colors hover:text-white">Terms of Use</Link>
+            <Link to="/admin" className="transition-colors hover:text-white">Admin</Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -9,18 +9,18 @@ const serviceAreaLines = [
 
 export function Locations() {
   return (
-    <section id="service-areas" className="bg-[#1d1d1f] px-6 py-[120px] md:px-12">
+    <section id="service-areas" className="bg-[#1d1d1f] px-6 py-16 md:px-12 md:py-[120px]">
       <div className="mx-auto max-w-[1200px] text-center">
         <h2 className="type-section-heading type-display-light reveal mt-4">
           We come to you.
         </h2>
 
-        <div className="reveal mt-12 text-center text-[32px] font-light leading-[1.8] text-white md:mt-16 md:text-[56px]">
-          {serviceAreaLines.map((line, index) => (
-            <p key={index}>
+        <div className="reveal mt-10 text-center text-[22px] font-light leading-[1.8] text-white md:mt-16 md:text-[40px] lg:text-[56px]">
+          {serviceAreaLines.map((line) => (
+            <p key={line.join("-")}>
               {line.map((city, cityIndex) => (
                 <span key={city}>
-                  {cityIndex > 0 && <span className="px-[0.35em] text-[#ff4e27]">&middot;</span>}
+                  {cityIndex > 0 && <span className="px-[0.35em] text-primary">&middot;</span>}
                   <span>{city}</span>
                 </span>
               ))}
@@ -32,7 +32,7 @@ export function Locations() {
           and surrounding areas
         </p>
 
-        <ContactCta className="reveal mt-8 px-5 text-sm hover:bg-[#e74824]">
+        <ContactCta className="reveal mt-8 px-5 text-sm hover:bg-accent-brand-hover">
           Check if we serve your area →
         </ContactCta>
       </div>

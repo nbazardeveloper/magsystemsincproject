@@ -47,7 +47,7 @@ export function PartnersStrip() {
               <img
                 src={partner.logoUrl}
                 alt={partner.name}
-                className={`trust-logo h-auto w-full object-contain opacity-60 transition-all duration-400 ease-out group-hover:opacity-100 ${partner.logoClassName}`}
+                loading="lazy" decoding="async" className={`trust-logo h-auto w-full object-contain opacity-60 transition-all duration-400 ease-out group-hover:opacity-100 ${partner.logoClassName}`}
               />
             </li>
           ))}
@@ -66,7 +66,7 @@ export function PartnersStrip() {
               <img
                 src={partner.logoUrl}
                 alt={partner.name}
-                className={`trust-logo h-auto w-full object-contain opacity-60 transition-all duration-400 ease-out group-hover:opacity-100 ${partner.logoClassName}`}
+                loading="lazy" decoding="async" className={`trust-logo h-auto w-full object-contain opacity-60 transition-all duration-400 ease-out group-hover:opacity-100 ${partner.logoClassName}`}
               />
             </div>
           ))}

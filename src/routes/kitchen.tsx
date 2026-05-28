@@ -9,9 +9,13 @@ export const Route = createFileRoute("/kitchen")({
     meta: [
       { title: "Kitchen Renovation in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Kitchen renovation in Manatee County and Sarasota County, Florida. From planning and material selection to installation and finishing touches." },
-      { property: "og:title", content: "Kitchen Renovation — MagSystem Inc" },
-      { property: "og:description", content: "Custom kitchen renovation in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Kitchen Renovation in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Custom kitchen renovation in Manatee County and Sarasota County, Florida. From planning and material selection to installation and finishing touches." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/kitchen" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/kitchen" }],
   }),
   component: KitchenPage,
 });

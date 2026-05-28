@@ -49,6 +49,7 @@ const quizSchema = z.object({
   style: z.string().trim().max(60).optional().default(""),
   size: z.string().trim().max(60).optional().default(""),
   scope: z.array(z.string().trim().max(60)).max(20).default([]),
+  materials: z.string().trim().max(60).optional().default(""),
   timeline: z.string().trim().max(60).optional().default(""),
   page_source: z.enum(["kitchen", "bathroom", "full-remodel"]),
 });
@@ -62,6 +63,7 @@ export const submitQuiz = createServerFn({ method: "POST" })
       style: data.style || null,
       size: data.size || null,
       scope: data.scope,
+      materials: data.materials || null,
       timeline: data.timeline || null,
       page_source: data.page_source,
     });
@@ -76,6 +78,7 @@ export const submitQuiz = createServerFn({ method: "POST" })
       `<b>Style:</b> ${escape(data.style || "—")}`,
       `<b>Size:</b> ${escape(data.size || "—")}`,
       `<b>Scope:</b> ${escape(data.scope.join(", ") || "—")}`,
+      `<b>Materials:</b> ${escape(data.materials || "—")}`,
       `<b>Timeline:</b> ${escape(data.timeline || "—")}`,
       "",
       `<b>Time:</b> ${new Date().toLocaleString("en-US")}`,

@@ -3,43 +3,135 @@ import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
 import { useReveal } from "@/hooks/use-reveal";
+import accentWallImage from "@/images/accent-wall.webp";
+import assemblyInstallationImage from "@/images/assembly_installation.webp";
+import bathroomImage from "@/images/bathroom-service.webp";
+import fullRemodelImage from "@/images/full_remodel.webp";
+import homeImprovementsImage from "@/images/home_improvements.png";
+import kitchenImage from "@/images/kitchen.webp";
+import repairsMaintenanceImage from "@/images/repairs_maintenance.webp";
+import waterFiltrationImage from "@/images/water-filtration.webp";
 
-const primaryServices = [
-  {
-    title: "Kitchen renovation",
-    description:
-      "From planning and material selection to installation and finishing touches, we build kitchens around how you live every day.",
-    to: "/kitchen",
-    tone: "dark",
-  },
-  {
-    title: "Bathroom renovation",
-    description:
-      "Modern layouts, precise tile work, updated fixtures, and clean detailing handled start to finish on-site.",
-    to: "/bathroom",
-    tone: "light",
-  },
-  {
-    title: "Turnkey remodel",
-    description:
-      "From targeted upgrades to full-home execution, one team coordinates the work so the process stays clear and stress-free.",
-    to: "/full-remodel",
-    tone: "accent",
-  },
-];
+type ServiceSection = {
+  title: string;
+  eyebrow: string;
+  description: string;
+  bullets: string[];
+  image: string;
+  imageAlt: string;
+  pageTo?: string;
+};
 
-const additionalServices = [
+const services: ServiceSection[] = [
   {
-    title: "Handyman service",
-    description: "Reliable small repairs, finishing work, updates, and practical improvements that keep your home in shape.",
+    title: "Handyman Service",
+    eyebrow: "Everyday home tasks",
+    description:
+      "A practical all-in-one service for busy homeowners who do not want to spend weekends on minor repairs, mounting, assembly, and finish work. We handle the small jobs that keep your home working and looking right.",
+    bullets: [
+      "Drywall patching, painting touch-ups, door and window repairs, and hardware adjustments.",
+      "Furniture assembly, TV wall mounting, shelving, blinds, light fixtures, and appliance hookups.",
+      "Trim work, vanity and mirror installation, backsplash updates, and small carpentry improvements.",
+    ],
+    image: repairsMaintenanceImage,
+    imageAlt: "Handyman repairs and maintenance service",
+    pageTo: "/handyman",
   },
   {
-    title: "Tile installation",
-    description: "Walls, floors, showers, and backsplashes installed with clean alignment, durable prep, and careful finishing.",
+    title: "Kitchen Renovation",
+    eyebrow: "Planned around daily use",
+    description:
+      "Full-service kitchen renovation from planning and material selection to installation and finishing. The goal is a kitchen that feels clean, current, and built around how you actually live.",
+    bullets: [
+      "Flooring, plumbing, cabinets, lighting, and surface updates managed as one coordinated scope.",
+      "A balance of aesthetics and function so the layout works as well as it looks.",
+      "Old fixtures removal, installation, finishing details, and cleanup handled on-site.",
+    ],
+    image: kitchenImage,
+    imageAlt: "Kitchen renovation service",
+    pageTo: "/kitchen",
   },
   {
-    title: "Flooring installation",
-    description: "New flooring planned and installed to match the space, traffic, and finish level you want.",
+    title: "Bathroom Renovation",
+    eyebrow: "Comfort, detail, and durability",
+    description:
+      "Modern bathroom renovation with precise tile work, updated fixtures, lighting, and clean finishing details. Each decision is aimed at making the room easier to use and better to live with every day.",
+    bullets: [
+      "Tile, plumbing fixtures, lighting, vanity work, and finish updates completed as one process.",
+      "Careful detailing in wet areas, edges, transitions, and material alignment.",
+      "A fully updated bathroom delivered with practical layouts and a polished finish.",
+    ],
+    image: bathroomImage,
+    imageAlt: "Bathroom renovation service",
+    pageTo: "/bathroom",
+  },
+  {
+    title: "Tile Installation",
+    eyebrow: "Walls, floors, showers, backsplashes",
+    description:
+      "Professional tile installation for kitchens, bathrooms, hallways, walls, and floors. The work is planned for durability, clean alignment, and a finished look that holds up in everyday use.",
+    bullets: [
+      "Ceramic, porcelain, mosaic, stone, and other tile types installed with attention to layout and style.",
+      "Level surfaces, precise joints, and careful finishing even in more difficult areas.",
+      "Selections guided by your interior style, technical conditions, and budget.",
+    ],
+    image: assemblyInstallationImage,
+    imageAlt: "Tile installation service",
+    pageTo: "/tile",
+  },
+  {
+    title: "Flooring Installation",
+    eyebrow: "Built for traffic and finish level",
+    description:
+      "Flooring installation matched to your interior, wear level, and budget. We help choose the right material, prepare the base correctly, and finish the floor so it looks clean and lasts.",
+    bullets: [
+      "Wood-look tile, vinyl, laminate, and other flooring options installed professionally.",
+      "Material guidance based on style, foot traffic, maintenance, and cost.",
+      "Base levelling, technical prep, installation, and finishing handled with precision.",
+    ],
+    image: homeImprovementsImage,
+    imageAlt: "Flooring installation service",
+    pageTo: "/flooring",
+  },
+  {
+    title: "Water Filtration & Softening Systems",
+    eyebrow: "Cleaner water throughout the home",
+    description:
+      "Water treatment upgrades designed to improve daily water quality, protect fixtures, and support the way your home is actually used. We plan the installation cleanly around the existing plumbing and equipment layout.",
+    bullets: [
+      "Whole-home filtration and softening solutions matched to the needs of the property.",
+      "Installations planned to stay accessible, serviceable, and visually clean.",
+      "A practical upgrade for water quality, fixture longevity, and everyday comfort.",
+    ],
+    image: waterFiltrationImage,
+    imageAlt: "Water filtration and softening system service",
+  },
+  {
+    title: "Accent Wall Installation",
+    eyebrow: "Targeted visual upgrade",
+    description:
+      "Accent wall installation for homeowners who want a room to feel sharper without committing to a full remodel. We create focused feature surfaces that bring more structure, texture, and character into the space.",
+    bullets: [
+      "Trim, panel, texture, and finish-forward wall concepts tailored to the room.",
+      "A fast way to add depth and visual interest to living rooms, bedrooms, offices, or entry areas.",
+      "Installed with clean lines and finishing details that make the feature feel intentional.",
+    ],
+    image: accentWallImage,
+    imageAlt: "Accent wall installation service",
+  },
+  {
+    title: "Full Remodel",
+    eyebrow: "Turnkey execution",
+    description:
+      "A comprehensive remodel where one team coordinates the work from first measurements to final touch-ups. This is the clearest path for larger projects that need planning, sequencing, and consistent on-site execution.",
+    bullets: [
+      "On-site visit, measurements, planning, material selection, and staged execution.",
+      "Renovation scopes coordinated without forcing you to manage multiple trades separately.",
+      "A stress-reduced process focused on timeline clarity, finish quality, and clean delivery.",
+    ],
+    image: fullRemodelImage,
+    imageAlt: "Full remodel service",
+    pageTo: "/full-remodel",
   },
 ];
 
@@ -50,15 +142,19 @@ export const Route = createFileRoute("/services")({
       {
         name: "description",
         content:
-          "Explore renovation services from Mag System Inc in Manatee County and Sarasota County, Florida, including kitchens, bathrooms, turnkey remodels, tile, flooring, and handyman work.",
+          "Explore handyman work, kitchen and bathroom renovation, tile, flooring, water filtration, accent walls, and full remodel services from Mag System Inc in Manatee County and Sarasota County, Florida.",
       },
-      { property: "og:title", content: "Services — Mag System Inc" },
+      { property: "og:title", content: "Renovation Services in Manatee & Sarasota — Mag System Inc" },
       {
         property: "og:description",
         content:
-          "Kitchen renovation, bathroom renovation, turnkey remodels, tile installation, flooring installation, and handyman services in Manatee and Sarasota.",
+          "Kitchen, bathroom, tile, flooring, handyman, and full remodel services from Mag System Inc in Manatee County and Sarasota County, Florida.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/services" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/services" }],
   }),
   component: ServicesPage,
 });
@@ -70,93 +166,83 @@ function ServicesPage() {
     <>
       <Nav />
       <main className="bg-background">
-        <section className="border-b border-border/60 px-6 pb-14 pt-32 md:px-12 md:pb-20 md:pt-40">
+        <section className="border-b border-border/50 bg-[#f3ecdf] px-6 pb-14 pt-32 md:px-12 md:pb-20 md:pt-40">
           <div className="mx-auto max-w-[1200px]">
-            <p className="type-kicker type-kicker-muted reveal">
-              Services
-            </p>
-            <h1 className="type-display type-display-dark reveal mt-5 max-w-4xl md:text-7xl">
-              Renovation services designed to work as one clear process.
+            <p className="type-kicker reveal text-[#7d5a44]">Services</p>
+            <h1 className="type-display type-display-dark reveal mt-5 max-w-5xl md:text-7xl">
+              Stress-free renovation and home improvement, arranged as one clear process.
             </h1>
             <p className="type-slogan type-slogan-dark reveal mt-6 max-w-3xl">
-              We serve Manatee County and Sarasota County, Florida with kitchen and bathroom renovation,
-              turnkey remodel execution, tile installation, flooring installation, and dependable handyman work.
+              We serve Manatee County and Sarasota County, Florida with hands-on work carried out on-site. From handyman tasks and installation work to kitchen, bathroom, and full remodel scopes, each service is planned to stay practical, organized, and finish strong.
             </p>
           </div>
         </section>
 
-        <section className="px-6 py-16 md:px-12 md:py-20">
-          <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-3">
-            {primaryServices.map((service) => {
-              const isDark = service.tone === "dark";
-              const isAccent = service.tone === "accent";
+        {services.map((service, index) => {
+          const reverse = index % 2 === 1;
 
-              return (
-                <Link
-                  key={service.title}
-                  to={service.to}
-                  className={`reveal flex min-h-[340px] flex-col justify-between rounded-[30px] p-8 transition-transform duration-300 hover:-translate-y-1 ${
-                    isDark
-                      ? "bg-[#1d1d1f] text-white"
-                      : isAccent
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-[#f5f5f7] text-[#1d1d1f]"
-                  }`}
-                >
-                  <div>
-                    <p
-                      className={`type-kicker ${
-                        isDark || isAccent ? "text-white/60" : "text-black/45"
-                      }`}
-                    >
-                      Core service
-                    </p>
-                    <h2 className="type-card-title mt-8">{service.title}</h2>
-                    <p
-                      className={`type-body mt-4 ${
-                        isDark || isAccent ? "text-white/72" : "text-black/60"
-                      }`}
-                    >
+          return (
+            <section
+              key={service.title}
+              className={`border-b border-border/40 ${index % 2 === 0 ? "bg-white" : "bg-[#f7f3eb]"}`}
+            >
+              <div className="grid min-h-[680px] lg:grid-cols-2">
+                <div className={`reveal flex items-center ${reverse ? "lg:order-2" : "lg:order-1"}`}>
+                  <div className="w-full px-6 py-14 md:px-12 md:py-18 lg:px-16 xl:px-20">
+                    <p className="type-kicker text-[#8a674f]">{service.eyebrow}</p>
+                    <h2 className="type-display type-display-dark mt-5 text-4xl md:text-6xl">
+                      {service.title}
+                    </h2>
+                    <p className="type-slogan type-slogan-dark mt-6 max-w-2xl text-base md:text-lg">
                       {service.description}
                     </p>
+                    <div className="mt-8 space-y-4">
+                      {service.bullets.map((bullet) => (
+                        <div key={bullet} className="flex gap-3 text-left">
+                          <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[#d08f73]" />
+                          <p className="type-body type-body-dark leading-7 text-foreground/80">{bullet}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-10 flex flex-wrap gap-3">
+                      {service.pageTo ? (
+                        <Link
+                          to={service.pageTo}
+                          className="inline-flex h-11 items-center justify-center rounded-full bg-[#1d1d1f] px-6 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+                        >
+                          View service
+                        </Link>
+                      ) : (
+                        <ContactCta className="px-6 text-[14px]">Get a quote</ContactCta>
+                      )}
+                      <ContactCta variant="outline" className="border-black/15 px-6 text-[14px] text-foreground hover:bg-black/5">
+                        Request estimate
+                      </ContactCta>
+                    </div>
                   </div>
-                  <span
-                    className={`mt-8 inline-flex h-11 items-center text-sm font-medium ${
-                      isDark || isAccent ? "text-white" : "text-[#1d1d1f]"
-                    }`}
-                  >
-                    View service
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
+                </div>
 
-        <section className="px-6 pb-16 md:px-12 md:pb-20">
-          <div className="mx-auto max-w-[1200px] rounded-[34px] bg-[#f5f5f7] px-6 py-8 md:px-8 md:py-10">
-            <div className="reveal flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-              <div className="max-w-xl">
-                <p className="type-kicker type-kicker-muted">
-                  Additional services
-                </p>
-                <h2 className="type-card-title mt-4 text-foreground">
-                  Smaller scopes, finishing work, and specialty installation.
-                </h2>
+                <div className={`reveal relative min-h-[340px] overflow-hidden lg:min-h-[680px] ${reverse ? "lg:order-1" : "lg:order-2"}`}>
+                  <img src={service.image} alt={service.imageAlt} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-black/10" />
+                </div>
               </div>
-              <ContactCta variant="outline" className="border-black/15 px-5 text-sm text-foreground hover:bg-white">
-                Get a quote
-              </ContactCta>
-            </div>
+            </section>
+          );
+        })}
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {additionalServices.map((service) => (
-                <article key={service.title} className="reveal rounded-[26px] bg-white px-5 py-6">
-                  <h3 className="text-lg font-semibold tracking-tight text-foreground">{service.title}</h3>
-                  <p className="type-body type-body-dark mt-3 text-sm leading-6">{service.description}</p>
-                </article>
-              ))}
+        <section className="bg-[#1d1d1f] px-6 py-16 text-white md:px-12 md:py-20">
+          <div className="mx-auto flex max-w-[1200px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <p className="type-kicker text-[#f1c7b8]">Consultation</p>
+              <h2 className="type-display type-display-light mt-5 text-4xl md:text-6xl">
+                Tell us the scope. We will help define the cleanest path forward.
+              </h2>
+              <p className="type-slogan type-slogan-light mt-6 max-w-2xl">
+                We offer on-site consultation, measurements, and estimate guidance across Manatee County and Sarasota County, Florida.
+              </p>
             </div>
+            <ContactCta className="px-6 text-[14px]">Get a price estimate</ContactCta>
           </div>
         </section>
       </main>

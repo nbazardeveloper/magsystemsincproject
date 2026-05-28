@@ -9,9 +9,13 @@ export const Route = createFileRoute("/bathroom")({
     meta: [
       { title: "Bathroom Renovation in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Bathroom renovation in Manatee County and Sarasota County, Florida. Tile, fixtures, lighting, and finishing work handled start to finish." },
-      { property: "og:title", content: "Bathroom Renovation — MagSystem Inc" },
-      { property: "og:description", content: "Bathroom renovation in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Bathroom Renovation in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Bathroom renovation in Manatee County and Sarasota County, Florida. Tile, fixtures, lighting, and finishing work handled start to finish." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/bathroom" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/bathroom" }],
   }),
   component: BathroomPage,
 });

@@ -38,7 +38,7 @@ export function Contact() {
           <h2 className="type-section-heading type-display-dark reveal">
             Tell us about your project.
           </h2>
-          <p className="type-slogan type-slogan-dark reveal max-w-2xl text-[1rem]">
+          <p className="type-slogan type-slogan-dark reveal max-w-2xl">
             Free consultation and on-site assessment in Manatee County and Sarasota County, Florida.
           </p>
         </div>
@@ -46,7 +46,7 @@ export function Contact() {
 
       <div className="grid gap-[5px] bg-white p-[5px] md:grid-cols-2">
         <div className="reveal bg-[#f5f2ee] px-7 py-8 md:px-8 md:py-10">
-          <div className="space-y-4 type-body text-[#1a1a18]">
+          <div className="space-y-4 type-body text-foreground">
             <div>
               <div className="type-form-label">Phone</div>
               <a href="tel:+17542869559" className="mt-1 block font-medium">+1 (754) 286-9559</a>
@@ -69,10 +69,11 @@ export function Contact() {
           <Field label="Phone" name="phone" type="tel" required />
           <Field label="Email" name="email" type="email" required />
           <div>
-            <label className="type-form-label">
+            <label htmlFor="project_type" className="type-form-label">
               Project type
             </label>
             <select
+              id="project_type"
               name="project_type"
               required
               defaultValue=""
@@ -85,10 +86,11 @@ export function Contact() {
             </select>
           </div>
           <div>
-            <label className="type-form-label">
+            <label htmlFor="message" className="type-form-label">
               Message
             </label>
             <textarea
+              id="message"
               name="message"
               rows={4}
               className="w-full px-4 py-3 rounded-lg border border-border bg-background text-[14px] focus:outline-none focus:ring-2 focus:ring-primary"
@@ -120,10 +122,11 @@ function Field({
 }) {
   return (
     <div>
-      <label className="type-form-label">
+      <label htmlFor={name} className="type-form-label">
         {label}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         required={required}

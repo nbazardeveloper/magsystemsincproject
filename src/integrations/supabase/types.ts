@@ -75,7 +75,7 @@ export type Database = {
         Row: {
           after_image_url: string | null
           before_image_url: string | null
-          category: Database["public"]["Enums"]["project_category"]
+          category: string
           created_at: string
           description: string | null
           id: string
@@ -85,7 +85,7 @@ export type Database = {
         Insert: {
           after_image_url?: string | null
           before_image_url?: string | null
-          category: Database["public"]["Enums"]["project_category"]
+          category: string
           created_at?: string
           description?: string | null
           id?: string
@@ -95,7 +95,7 @@ export type Database = {
         Update: {
           after_image_url?: string | null
           before_image_url?: string | null
-          category?: Database["public"]["Enums"]["project_category"]
+          category?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -108,6 +108,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          materials: string | null
           name: string
           page_source: string
           phone: string
@@ -120,6 +121,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          materials?: string | null
           name: string
           page_source: string
           phone: string
@@ -132,6 +134,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          materials?: string | null
           name?: string
           page_source?: string
           phone?: string

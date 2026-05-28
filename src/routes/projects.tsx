@@ -1,19 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
 import { Projects } from "@/components/site/Projects";
 import { useReveal } from "@/hooks/use-reveal";
+import { supabase } from "@/integrations/supabase/client";
 import projectHeroImage from "@/images/project-here.webp";
-
-type Category = "kitchen" | "bathroom" | "full-remodel";
-
-const CATEGORIES: { value: Category | "all"; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "kitchen", label: "Kitchen" },
-  { value: "bathroom", label: "Bathroom" },
-  { value: "full-remodel", label: "Full remodel" },
-];
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -24,20 +16,43 @@ export const Route = createFileRoute("/projects")({
         content:
           "Explore kitchen, bathroom, and full remodel projects completed by Mag System Inc across Manatee County and Sarasota County, Florida.",
       },
-      { property: "og:title", content: "Projects — Mag System Inc" },
+      { property: "og:title", content: "Renovation Projects in Manatee & Sarasota — Mag System Inc" },
       {
         property: "og:description",
         content:
-          "See recent renovation projects from Mag System Inc, including kitchens, bathrooms, and turnkey remodels.",
+          "See recent renovation projects from Mag System Inc, including kitchens, bathrooms, and turnkey remodels in Manatee County and Sarasota County, Florida.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/projects" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/projects" }],
   }),
   component: ProjectsPage,
 });
 
+function toLabel(cat: string) {
+  return cat
+    .split(/[\s-]+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 function ProjectsPage() {
   useReveal();
-  const [active, setActive] = useState<Category | "all">("all");
+  const [active, setActive] = useState<string>("all");
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("projects")
+      .select("category")
+      .then(({ data }) => {
+        if (!data) return;
+        const unique = Array.from(new Set(data.map((r) => r.category as string).filter(Boolean))).sort();
+        setCategories(unique);
+      });
+  }, []);
 
   return (
     <>
@@ -62,17 +77,27 @@ function ProjectsPage() {
               Explore completed renovation projects from MAG SYSTEM INC throughout Manatee County and Sarasota County, Florida.
             </p>
             <div className="mt-10 flex flex-wrap gap-2">
-              {CATEGORIES.map(({ value, label }) => (
+              <button
+                onClick={() => setActive("all")}
+                className={`h-9 rounded-full border px-5 text-[13px] font-medium transition-colors ${
+                  active === "all"
+                    ? "border-foreground bg-foreground text-background"
+                    : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+                }`}
+              >
+                All
+              </button>
+              {categories.map((cat) => (
                 <button
-                  key={value}
-                  onClick={() => setActive(value)}
+                  key={cat}
+                  onClick={() => setActive(cat)}
                   className={`h-9 rounded-full border px-5 text-[13px] font-medium transition-colors ${
-                    active === value
+                    active === cat
                       ? "border-foreground bg-foreground text-background"
                       : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"
                   }`}
                 >
-                  {label}
+                  {toLabel(cat)}
                 </button>
               ))}
             </div>
@@ -80,8 +105,9 @@ function ProjectsPage() {
         </section>
 
         <Projects
-          heading={active === "all" ? "All projects." : `${CATEGORIES.find(c => c.value === active)?.label}.`}
           category={active === "all" ? undefined : active}
+          seamGrid
+          compactTopSpacing
         />
       </main>
       <Footer />

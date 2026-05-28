@@ -35,13 +35,13 @@ export function WhyMagSystem() {
         <div className="mx-auto max-w-[960px]">
           <div className="flex flex-col items-center text-center">
             <h2 className="type-section-heading type-display-light reveal mt-3">
-              Where Professionalism Meets <span className="text-[#ff4e27]">MAGic</span>
+              Where Professionalism Meets <span className="text-primary">MAGic</span>
             </h2>
             <p className="type-slogan type-slogan-light reveal mt-3 max-w-2xl">
               We work as if it's for ourselves — attention to every detail
             </p>
             <div className="section-pills reveal mt-6">
-              <ContactCta className="border border-[#c0583a] bg-[#c0583a] text-white hover:bg-[#a54a31]">
+              <ContactCta className="border border-accent-brand bg-accent-brand text-white hover:bg-accent-brand-hover">
                 Get a quote
               </ContactCta>
               <Button href="/#projects" variant="outline" className="border-white/30 text-white hover:bg-white/8">

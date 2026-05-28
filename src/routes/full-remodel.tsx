@@ -8,11 +8,15 @@ import { useReveal } from "@/hooks/use-reveal";
 export const Route = createFileRoute("/full-remodel")({
   head: () => ({
     meta: [
-      { title: "Turnkey Remodel in Manatee & Sarasota — Mag System Inc" },
+      { title: "Turnkey Full Remodel in Manatee & Sarasota — Mag System Inc" },
       { name: "description", content: "Stress-free turnkey renovation in Manatee County and Sarasota County, Florida. One team handling every stage on-site." },
-      { property: "og:title", content: "Full Remodel — MagSystem Inc" },
-      { property: "og:description", content: "Turnkey remodel in Manatee County and Sarasota County, Florida." },
+      { property: "og:title", content: "Turnkey Full Remodel in Manatee & Sarasota — Mag System Inc" },
+      { property: "og:description", content: "Stress-free turnkey renovation in Manatee County and Sarasota County, Florida. One team handling every stage on-site." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://magsysteminc.com/full-remodel" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://magsysteminc.com/full-remodel" }],
   }),
   component: FullRemodelPage,
 });
