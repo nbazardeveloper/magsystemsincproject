@@ -13,12 +13,25 @@ import industrialStyleImage from "@/images/quiz_kitchen/Industrial.webp";
 import minimalistStyleImage from "@/images/quiz_kitchen/Minimalist.webp";
 import modernStyleImage from "@/images/quiz_kitchen/Modern.webp";
 import scandinavianStyleImage from "@/images/quiz_kitchen/Scandinavian.webp";
+import kitchenOneWallImage from "@/images/quiz_kitchen/one-wall.webp";
+import kitchenLShapeImage from "@/images/quiz_kitchen/L-shape.webp";
+import kitchenUShapeImage from "@/images/quiz_kitchen/U-shape.webp";
+import kitchenIslandImage from "@/images/quiz_kitchen/with-an-island.webp";
+import accentGeometricImage from "@/images/quiz_accent/geometric.webp";
+import accentNaturalImage from "@/images/quiz_accent/natural.webp";
+import accentVenetianImage from "@/images/quiz_accent/venetian.webp";
+import accentBoldImage from "@/images/quiz_accent/bold.webp";
+import accentWoodImage from "@/images/quiz_accent/wood.webp";
+import accentDecorativeImage from "@/images/quiz_accent/decorative.webp";
+import accentStoneImage from "@/images/quiz_accent/stone.webp";
+import accentTextureImage from "@/images/quiz_accent/texture.webp";
 import { Button } from "./Button";
 
-type Source = "kitchen" | "bathroom" | "full-remodel";
+type Source = "kitchen" | "bathroom" | "full-remodel" | "accent-wall" | "water-filtration";
 type StyleOption = {
   name: string;
   image?: string;
+  placeholder?: boolean;
 };
 
 const KITCHEN_STYLE_OPTIONS: StyleOption[] = [
@@ -38,13 +51,56 @@ const BATHROOM_STYLE_OPTIONS: StyleOption[] = [
   { name: "Minimalist", image: bathroomMinimalistStyleImage },
   { name: "Spa / Zen", image: bathroomSpaStyleImage },
   { name: "Not sure yet" },
-] ;
+];
+const ACCENT_WALL_STYLE_OPTIONS: StyleOption[] = [
+  { name: "Modern / Geometric", image: accentGeometricImage },
+  { name: "Natural / Wood panels", image: accentNaturalImage },
+  { name: "Venetian plaster / Textured", image: accentVenetianImage },
+  { name: "Bold / Statement", image: accentBoldImage },
+  { name: "Not sure yet" },
+];
+const ACCENT_WALL_FINISH_OPTIONS: StyleOption[] = [
+  { name: "Wood slats / Panels", image: accentWoodImage },
+  { name: "Decorative plaster", image: accentDecorativeImage },
+  { name: "Tile / Stone look", image: accentStoneImage },
+  { name: "Paint with texture", image: accentTextureImage },
+  { name: "Not sure" },
+];
+
 const DEFAULT_SIZES = ["Under 50 sq ft", "50–80 sq ft", "80–120 sq ft", "Over 120 sq ft"];
 const KITCHEN_SIZES = ["Less than 150 sq ft", "150-180 sq ft", "180-210 sq ft", "More than 210 sq ft"];
+const ACCENT_WALL_SIZES = ["Small (up to 8 ft wide)", "Medium (8–12 ft wide)", "Large (12+ ft wide)"];
+const WATER_FILTRATION_PEOPLE = ["1–2 people", "3–4 people", "5 or more"];
+
 const DEFAULT_SCOPE = ["Full remodel", "Just tile", "Plumbing", "Cabinets & vanity", "Shower / bathtub", "Lighting / mirror", "Other"];
-const KITCHEN_LAYOUTS = ["One-wall", "L-shape", "U-shape", "With an island", "Not sure"];
+const KITCHEN_LAYOUT_OPTIONS: StyleOption[] = [
+  { name: "One-wall", image: kitchenOneWallImage },
+  { name: "L-shape", image: kitchenLShapeImage },
+  { name: "U-shape", image: kitchenUShapeImage },
+  { name: "With an island", image: kitchenIslandImage },
+  { name: "Not sure" },
+];
+const ACCENT_WALL_ROOMS = ["Living room", "Master bedroom", "Dining room", "Other room"];
+const WATER_FILTRATION_CONCERNS = ["Taste and odor", "Hard water / scale buildup", "Health & safety / contaminants", "Full water quality improvement"];
+
 const KITCHEN_MATERIALS = ["MDF", "Solid wood", "Laminate", "Acrylic", "Not sure yet"];
+const WATER_FILTRATION_EXISTING = ["No, starting from scratch", "Yes, looking to upgrade", "Not sure"];
+
 const TIMELINE = ["As soon as possible", "Within 1–3 months", "In 3–6 months", "Just exploring options"];
+const WATER_FILTRATION_BUDGET = [
+  "Under $1,000 (basic under-sink filter)",
+  "$1,000 – $3,000 (mid-range system)",
+  "$3,000 – $7,000 (whole-house filtration)",
+  "$7,000+ (premium whole-house with softener)",
+  "Not sure — need consultation",
+];
+const WATER_FILTRATION_SYSTEM_TYPES = [
+  "Under-sink filter (kitchen)",
+  "Whole-house filtration",
+  "Reverse osmosis system",
+  "Water softener",
+  "Not sure — need advice",
+];
 
 export function Quiz({ source }: { source: Source }) {
   const submit = useServerFn(submitQuiz);
@@ -60,21 +116,56 @@ export function Quiz({ source }: { source: Source }) {
   const [err, setErr] = useState("");
 
   const isKitchen = source === "kitchen";
-  const total = isKitchen ? 6 : 5;
+  const isAccentWall = source === "accent-wall";
+  const isWaterFiltration = source === "water-filtration";
+  // bathroom and full-remodel keep their original 5-step flow
+  const isLegacy = source === "bathroom" || source === "full-remodel";
+
+  // kitchen, accent-wall, water-filtration = 6 steps; bathroom/full-remodel = 5
+  const total = isLegacy ? 5 : 6;
+  const contactStep = total - 1;
   const progress = ((step + 1) / total) * 100;
-  const styleOptions = source === "bathroom" ? BATHROOM_STYLE_OPTIONS : KITCHEN_STYLE_OPTIONS;
-  const sizeOptions = isKitchen ? KITCHEN_SIZES : DEFAULT_SIZES;
-  const scopeOptions = isKitchen ? KITCHEN_LAYOUTS : DEFAULT_SCOPE;
+
+  const styleOptions =
+    source === "bathroom"
+      ? BATHROOM_STYLE_OPTIONS
+      : isAccentWall
+        ? ACCENT_WALL_STYLE_OPTIONS
+        : KITCHEN_STYLE_OPTIONS;
 
   const toggleScope = (s: string) =>
     setScope((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
 
+  // ── canNext per step ──
   const canNext = () => {
     if (step === 0) return !!style;
-    if (step === 1) return !!size;
-    if (step === 2) return scope.length > 0;
-    if (step === 3) return isKitchen ? !!materials : !!timeline;
-    if (step === 4 && isKitchen) return !!timeline;
+    if (isLegacy) {
+      if (step === 1) return !!size;
+      if (step === 2) return scope.length > 0;
+      if (step === 3) return !!timeline;
+      return true;
+    }
+    if (isKitchen) {
+      if (step === 1) return !!size;
+      if (step === 2) return scope.length > 0;
+      if (step === 3) return !!materials;
+      if (step === 4) return !!timeline;
+      return true;
+    }
+    if (isAccentWall) {
+      if (step === 1) return scope.length > 0;
+      if (step === 2) return !!size;
+      if (step === 3) return !!materials;
+      if (step === 4) return !!timeline;
+      return true;
+    }
+    if (isWaterFiltration) {
+      if (step === 1) return scope.length > 0;
+      if (step === 2) return !!size;
+      if (step === 3) return !!materials;
+      if (step === 4) return !!timeline;
+      return true;
+    }
     return true;
   };
 
@@ -129,100 +220,247 @@ export function Quiz({ source }: { source: Source }) {
         </div>
 
         <div className="bg-background border border-border rounded-2xl p-8 md:p-12 min-h-[420px] flex flex-col">
+
+          {/* ── STEP 0 — Style / System type ── */}
           {step === 0 && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">Which style do you like most?</h3>
-              <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 flex-1">
-                {styleOptions.map((option) => (
-                  <button
-                    key={option.name}
-                    type="button"
-                    onClick={() => setStyle(option.name)}
-                    className={`rounded-xl border-2 transition-all p-1 text-left ${
-                      style === option.name ? "border-primary" : "border-border hover:border-foreground/30"
-                    }`}
-                  >
-                    {option.image ? (
-                      <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
-                        <img src={option.image} alt={option.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                      </div>
-                    ) : (
-                      <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary px-4 text-center text-[16px] font-medium text-[#1a1a18]">
-                        {option.name}
-                      </div>
-                    )}
-                    <div className="px-2 py-3 text-[14px] font-medium text-[#1a1a18]">{option.name}</div>
-                  </button>
-                ))}
-              </div>
+              <h3 className="type-card-title text-[#1a1a18]">
+                {isWaterFiltration
+                  ? "What type of system are you interested in?"
+                  : "Which style do you like most?"}
+              </h3>
+              {isWaterFiltration ? (
+                <div className="mt-8 grid gap-3 flex-1">
+                  {WATER_FILTRATION_SYSTEM_TYPES.map((s) => (
+                    <Tile key={s} active={style === s} onClick={() => setStyle(s)}>{s}</Tile>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 flex-1">
+                  {styleOptions.map((option) => (
+                    <button
+                      key={option.name}
+                      type="button"
+                      onClick={() => setStyle(option.name)}
+                      className={`rounded-xl border-2 transition-all p-1 text-left ${
+                        style === option.name ? "border-primary" : "border-border hover:border-foreground/30"
+                      }`}
+                    >
+                      {option.image ? (
+                        <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
+                          <img src={option.image} alt={option.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary px-4 text-center text-[16px] font-medium text-[#1a1a18]">
+                          {option.name}
+                        </div>
+                      )}
+                      <div className="px-2 py-3 text-[14px] font-medium text-[#1a1a18]">{option.name}</div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </>
           )}
 
+          {/* ── STEP 1 ── */}
           {step === 1 && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">What's the size of your {isKitchen ? "kitchen" : "space"}?</h3>
-              <div className="mt-8 grid gap-3 flex-1">
-                {sizeOptions.map((s) => (
-                  <Tile key={s} active={size === s} onClick={() => setSize(s)}>{s}</Tile>
-                ))}
-              </div>
+              {(isLegacy || isKitchen) && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What's the size of your {isKitchen ? "kitchen" : "space"}?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {(isKitchen ? KITCHEN_SIZES : DEFAULT_SIZES).map((s) => (
+                      <Tile key={s} active={size === s} onClick={() => setSize(s)}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isAccentWall && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">Which room is the accent wall in?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {ACCENT_WALL_ROOMS.map((s) => (
+                      <Tile key={s} active={scope.includes(s)} onClick={() => setScope([s])}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isWaterFiltration && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What is your main concern?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {WATER_FILTRATION_CONCERNS.map((s) => (
+                      <Tile key={s} active={scope.includes(s)} onClick={() => setScope([s])}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 
+          {/* ── STEP 2 ── */}
           {step === 2 && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">What do you plan to update?</h3>
-              <p className="type-body type-body-dark mt-2">{isKitchen ? "Choose the closest option." : "Select all that apply."}</p>
-              <div className="mt-8 grid gap-3 sm:grid-cols-2 flex-1">
-                {scopeOptions.map((s) => (
-                  <Tile
-                    key={s}
-                    active={scope.includes(s)}
-                    onClick={() => (isKitchen ? setScope([s]) : toggleScope(s))}
-                  >
-                    {s}
-                  </Tile>
-                ))}
-              </div>
+              {isLegacy && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What do you plan to update?</h3>
+                  <p className="type-body type-body-dark mt-2">Select all that apply.</p>
+                  <div className="mt-8 grid gap-3 sm:grid-cols-2 flex-1">
+                    {DEFAULT_SCOPE.map((s) => (
+                      <Tile key={s} active={scope.includes(s)} onClick={() => toggleScope(s)}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isKitchen && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What do you plan to update?</h3>
+                  <p className="type-body type-body-dark mt-2">Choose the closest option.</p>
+                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 flex-1">
+                    {KITCHEN_LAYOUT_OPTIONS.map((option) => (
+                      <button
+                        key={option.name}
+                        type="button"
+                        onClick={() => setScope([option.name])}
+                        className={`rounded-xl border-2 transition-all p-1 text-left ${
+                          scope.includes(option.name) ? "border-primary" : "border-border hover:border-foreground/30"
+                        }`}
+                      >
+                        {option.image ? (
+                          <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
+                            <img src={option.image} alt={option.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                          </div>
+                        ) : (
+                          <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary px-4 text-center text-[16px] font-medium text-[#1a1a18]">
+                            {option.name}
+                          </div>
+                        )}
+                        <div className="px-2 py-3 text-[14px] font-medium text-[#1a1a18]">{option.name}</div>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isAccentWall && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What is the wall size?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {ACCENT_WALL_SIZES.map((s) => (
+                      <Tile key={s} active={size === s} onClick={() => setSize(s)}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isWaterFiltration && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">How many people live in your home?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {WATER_FILTRATION_PEOPLE.map((s) => (
+                      <Tile key={s} active={size === s} onClick={() => setSize(s)}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 
+          {/* ── STEP 3 ── */}
           {step === 3 && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">
-                {isKitchen ? "What materials do you prefer?" : "When are you planning to start?"}
-              </h3>
-              <div className="mt-8 grid gap-3 flex-1">
-                {isKitchen
-                  ? KITCHEN_MATERIALS.map((material) => (
-                      <Tile key={material} active={materials === material} onClick={() => setMaterials(material)}>{material}</Tile>
-                    ))
-                  : TIMELINE.map((t) => (
+              {isLegacy && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">When are you planning to start?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {TIMELINE.map((t) => (
                       <Tile key={t} active={timeline === t} onClick={() => setTimeline(t)}>{t}</Tile>
                     ))}
-              </div>
+                  </div>
+                </>
+              )}
+              {isKitchen && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What materials do you prefer?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {KITCHEN_MATERIALS.map((m) => (
+                      <Tile key={m} active={materials === m} onClick={() => setMaterials(m)}>{m}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isAccentWall && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What finish do you prefer?</h3>
+                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 flex-1">
+                    {ACCENT_WALL_FINISH_OPTIONS.map((option) => (
+                      <button
+                        key={option.name}
+                        type="button"
+                        onClick={() => setMaterials(option.name)}
+                        className={`rounded-xl border-2 transition-all p-1 text-left ${
+                          materials === option.name ? "border-primary" : "border-border hover:border-foreground/30"
+                        }`}
+                      >
+                        {option.image ? (
+                          <div className="aspect-[4/3] overflow-hidden rounded-lg bg-secondary">
+                            <img src={option.image} alt={option.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                          </div>
+                        ) : (
+                          <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary px-4 text-center text-[16px] font-medium text-[#1a1a18]">
+                            {option.name}
+                          </div>
+                        )}
+                        <div className="px-2 py-3 text-[14px] font-medium text-[#1a1a18]">{option.name}</div>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+              {isWaterFiltration && (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">Do you currently have any filtration system?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {WATER_FILTRATION_EXISTING.map((s) => (
+                      <Tile key={s} active={materials === s} onClick={() => setMaterials(s)}>{s}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 
-          {step === 4 && isKitchen && (
+          {/* ── STEP 4 — (kitchen/accent-wall/water-filtration only) ── */}
+          {step === 4 && !isLegacy && (
             <>
-              <h3 className="type-card-title text-[#1a1a18]">When are you planning to start?</h3>
-              <div className="mt-8 grid gap-3 flex-1">
-                {TIMELINE.map((t) => (
-                  <Tile key={t} active={timeline === t} onClick={() => setTimeline(t)}>{t}</Tile>
-                ))}
-              </div>
+              {isWaterFiltration ? (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">What is your budget range?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {WATER_FILTRATION_BUDGET.map((t) => (
+                      <Tile key={t} active={timeline === t} onClick={() => setTimeline(t)}>{t}</Tile>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="type-card-title text-[#1a1a18]">When are you planning to start?</h3>
+                  <div className="mt-8 grid gap-3 flex-1">
+                    {TIMELINE.map((t) => (
+                      <Tile key={t} active={timeline === t} onClick={() => setTimeline(t)}>{t}</Tile>
+                    ))}
+                  </div>
+                </>
+              )}
             </>
           )}
 
-          {((step === 4 && !isKitchen) || (step === 5 && isKitchen)) && (
+          {/* ── CONTACT STEP (last step for all sources) ── */}
+          {step === contactStep && (
             <>
               <h3 className="type-card-title text-[#1a1a18]">Almost done! Where should we send your estimate?</h3>
               <div className="mt-8 space-y-4 flex-1">
                 <div>
-                  <label className="type-form-label">
-                    First name
-                  </label>
+                  <label className="type-form-label">First name</label>
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -230,9 +468,7 @@ export function Quiz({ source }: { source: Source }) {
                   />
                 </div>
                 <div>
-                  <label className="type-form-label">
-                    Phone number
-                  </label>
+                  <label className="type-form-label">Phone number</label>
                   <input
                     type="tel"
                     value={phone}
@@ -254,7 +490,7 @@ export function Quiz({ source }: { source: Source }) {
             >
               ← Back
             </button>
-            {step < total - 1 ? (
+            {step < contactStep ? (
               <Button onClick={() => setStep((s) => s + 1)} disabled={!canNext()}>
                 Continue
               </Button>
@@ -267,6 +503,14 @@ export function Quiz({ source }: { source: Source }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function ImagePlaceholder() {
+  return (
+    <div className="flex aspect-[4/3] items-center justify-center rounded-lg bg-secondary/60 border border-dashed border-border px-4 text-center text-[13px] text-muted-foreground">
+      <span>Photo coming soon</span>
+    </div>
   );
 }
 

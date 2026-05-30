@@ -13,6 +13,7 @@ import { Contact } from "@/components/site/Contact";
 import { FAQ } from "@/components/site/FAQ";
 import { Locations } from "@/components/site/Locations";
 import { useReveal } from "@/hooks/use-reveal";
+import { PromoPopup } from "@/components/site/PromoPopup";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -67,6 +68,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
+      <PromoPopup />
     </>
   );
 }

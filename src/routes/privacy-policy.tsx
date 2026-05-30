@@ -27,7 +27,7 @@ function PrivacyPolicyPage() {
       <main className="bg-background">
         <section className="mx-auto max-w-3xl px-6 pb-24 pt-36 md:px-12 md:pt-44">
           <h1 className="type-display type-display-dark">Privacy Policy</h1>
-          <p className="mt-3 text-[13px] text-muted-foreground">Last updated: June 2025</p>
+          <p className="mt-3 text-[13px] text-muted-foreground">Last updated: May 2026</p>
 
           <div className="mt-12 space-y-8 text-[15px] leading-7 text-foreground/80">
 
@@ -44,6 +44,7 @@ function PrivacyPolicyPage() {
               <ul className="mt-3 list-disc space-y-1 pl-6">
                 <li><strong>Contact information</strong> — name, phone number, and email address when you submit a contact form or quiz.</li>
                 <li><strong>Project details</strong> — information about your renovation project such as size, style preferences, scope, and timeline.</li>
+                <li><strong>Contractor information</strong> — company name, specialization, license status, service area, and contact details submitted through our contractor registration form.</li>
                 <li><strong>Usage data</strong> — general information about how you interact with our website (pages visited, browser type).</li>
               </ul>
             </div>
@@ -57,6 +58,9 @@ function PrivacyPolicyPage() {
                 <li>Improve our website and services.</li>
                 <li>Send you relevant information about our services (you can opt out at any time).</li>
               </ul>
+              <p className="mt-4">
+                By submitting your phone number, you consent to receive calls and text messages from MAG System Inc regarding your project inquiry. Message and data rates may apply. You may opt out at any time by replying STOP.
+              </p>
             </div>
 
             <div>
@@ -95,7 +99,14 @@ function PrivacyPolicyPage() {
             </div>
 
             <div>
-              <h2 className="mb-3 text-[18px] font-semibold text-foreground">9. Contact</h2>
+              <h2 className="mb-3 text-[18px] font-semibold text-foreground">9. Children's Privacy</h2>
+              <p>
+                Our website is not directed to individuals under the age of 18. We do not knowingly collect personal information from minors.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="mb-3 text-[18px] font-semibold text-foreground">10. Contact</h2>
               <p>
                 If you have any questions about this Privacy Policy or how we handle your data, please contact us at{" "}
                 <a href="mailto:magsysteminc@gmail.com" className="text-foreground underline underline-offset-2 hover:opacity-70">

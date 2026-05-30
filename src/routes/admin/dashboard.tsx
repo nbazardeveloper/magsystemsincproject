@@ -7,7 +7,7 @@ export const Route = createFileRoute("/admin/dashboard")({
   component: Dashboard,
 });
 
-type Tab = "contacts" | "quiz" | "projects" | "testimonials" | "faq";
+type Tab = "contacts" | "quiz" | "contractors" | "projects" | "testimonials" | "faq";
 
 type ContactLead = {
   id: string;
@@ -61,6 +61,19 @@ type TestimonialRecord = {
   city: string;
   text: string;
   rating: number;
+  created_at: string;
+};
+
+type ContractorLead = {
+  id: string;
+  full_name: string;
+  company_name: string;
+  phone: string;
+  email: string;
+  specialization: string;
+  has_license: string;
+  service_area: string;
+  status: string;
   created_at: string;
 };
 
@@ -138,6 +151,7 @@ function Dashboard() {
           {([
             ["contacts", "Leads"],
             ["quiz", "Quiz Leads"],
+            ["contractors", "Contractors"],
             ["projects", "Projects"],
             ["testimonials", "Testimonials"],
             ["faq", "FAQ"],
@@ -158,6 +172,7 @@ function Dashboard() {
       <main className="mx-auto max-w-7xl px-6 py-10">
         {tab === "contacts" && <ContactsTab />}
         {tab === "quiz" && <QuizTab />}
+        {tab === "contractors" && <ContractorsTab />}
         {tab === "projects" && <ProjectsTab />}
         {tab === "testimonials" && <TestimonialsTab />}
         {tab === "faq" && <FAQTab />}
@@ -274,6 +289,83 @@ function QuizTab() {
         </article>
       ))}
     </div>
+  );
+}
+
+function ContractorsTab() {
+  const [items, setItems] = useState<ContractorLead[]>([]);
+  const load = useCallback(async () => {
+    const { data } = await supabase.from("contractor_leads").select("*").order("created_at", { ascending: false });
+    setItems((data ?? []) as unknown as ContractorLead[]);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const setStatus = async (id: string, status: string) => {
+    await supabase.from("contractor_leads").update({ status }).eq("id", id);
+    load();
+  };
+  const remove = async (id: string) => {
+    if (!confirm("Delete this contractor application?")) return;
+    await supabase.from("contractor_leads").delete().eq("id", id);
+    load();
+  };
+
+  return (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {items.length === 0 && <p className="text-muted-foreground text-[14px]">No contractor applications yet.</p>}
+      {items.map((l) => (
+        <article key={l.id} className="bg-background border border-border rounded-xl p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="font-semibold">{l.full_name}</h3>
+              <p className="text-[12px] text-muted-foreground">{new Date(l.created_at).toLocaleString()}</p>
+            </div>
+            <ContractorStatusBadge status={l.status} />
+          </div>
+          <dl className="mt-4 space-y-1.5 text-[13px]">
+            <Row k="Company" v={l.company_name} />
+            <Row k="Phone" v={l.phone} />
+            <Row k="Email" v={l.email} />
+            <Row k="Trade" v={l.specialization} />
+            <Row k="License" v={l.has_license} />
+            <Row k="Area" v={l.service_area} />
+          </dl>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <select
+              value={l.status}
+              onChange={(e) => setStatus(l.id, e.target.value)}
+              className="text-[12px] border border-border rounded-md px-2 h-8 bg-background"
+            >
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="approved">Approved</option>
+              <option value="declined">Declined</option>
+            </select>
+            <button onClick={() => remove(l.id)} className="text-[12px] text-destructive hover:opacity-70">Delete</button>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ContractorStatusBadge({ status }: { status: string }) {
+  const map: Record<string, string> = {
+    new: "bg-primary/10 text-primary",
+    contacted: "bg-foreground/10 text-foreground",
+    approved: "bg-green-500/10 text-green-700",
+    declined: "bg-destructive/10 text-destructive",
+  };
+  const label: Record<string, string> = {
+    new: "New",
+    contacted: "Contacted",
+    approved: "Approved",
+    declined: "Declined",
+  };
+  return (
+    <span className={`text-[11px] px-2 py-1 rounded-full ${map[status] ?? "bg-secondary text-muted-foreground"}`}>
+      {label[status] ?? status}
+    </span>
   );
 }
 

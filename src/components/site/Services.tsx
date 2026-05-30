@@ -35,7 +35,7 @@ const PRIMARY_ITEMS: ServiceItem[] = [
 
 const SECONDARY_ITEMS: ServiceItem[] = [
   {
-    to: "/services",
+    to: "/water-filtration",
     title: "Water Filtration & Softening Systems",
     description: "Cleanly integrated water treatment upgrades planned around your home's plumbing and daily use.",
     theme: "dark",
@@ -43,7 +43,7 @@ const SECONDARY_ITEMS: ServiceItem[] = [
     minHeight: "min-h-[360px]",
   },
   {
-    to: "/services",
+    to: "/accent-wall",
     title: "Accent Wall Installation",
     description: "Feature walls with trim, texture, or panel details that sharpen the room without a full remodel.",
     theme: "light",
@@ -122,10 +122,10 @@ export function Services() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              to="/full-remodel"
+              to="/contact"
               className="inline-flex h-11 items-center justify-center rounded-full bg-white px-6 text-[14px] font-medium text-[#1d1d1f]"
             >
-              Get a quote
+              Request estimate
             </Link>
             <Link
               to="/projects"

@@ -31,6 +31,9 @@ export function Footer() {
             <li><a href="/#about" className="transition-colors hover:text-white">About</a></li>
             <li><a href="/#projects" className="transition-colors hover:text-white">Projects</a></li>
             <li><Link to="/contact" className="transition-colors hover:text-white">Contact</Link></li>
+            <li>
+              <Link to="/contractors" className="transition-colors hover:text-white">Become a Partner</Link>
+            </li>
           </ul>
         </div>
         <div className="bg-[#1d1d1f] px-7 py-10 text-[13px] text-white/72 md:px-8">

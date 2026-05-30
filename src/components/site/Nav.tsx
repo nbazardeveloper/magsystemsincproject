@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: "/projects", label: "Projects" },
   { to: "/#about", label: "About" },
   { to: "/contact", label: "Contact" },
+  { to: "/contractors", label: "Become a Partner" },
 ] as const;
 
 export function Nav() {

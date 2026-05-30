@@ -1,7 +1,7 @@
 import { Button } from "@/components/site/Button";
 import { ContactCta } from "@/components/site/ContactCta";
 import assemblyInstallationImage from "@/images/assembly_installation.webp";
-import homeImprovementsImage from "@/images/home_improvements.png";
+import homeImprovementsImage from "@/images/home_improvements.webp";
 import repairsMaintenanceImage from "@/images/repairs_maintenance.webp";
 
 const items = [

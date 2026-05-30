@@ -1,4 +1,5 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { ContactCta } from "@/components/site/ContactCta";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
@@ -7,10 +8,11 @@ import accentWallImage from "@/images/accent-wall.webp";
 import assemblyInstallationImage from "@/images/assembly_installation.webp";
 import bathroomImage from "@/images/bathroom-service.webp";
 import fullRemodelImage from "@/images/full_remodel.webp";
-import homeImprovementsImage from "@/images/home_improvements.png";
+import homeImprovementsImage from "@/images/home_improvements.webp";
 import kitchenImage from "@/images/kitchen.webp";
 import repairsMaintenanceImage from "@/images/repairs_maintenance.webp";
 import waterFiltrationImage from "@/images/water-filtration.webp";
+import spaBathroomImage from "@/images/spa-bathroom.webp";
 
 type ServiceSection = {
   title: string;
@@ -20,23 +22,10 @@ type ServiceSection = {
   image: string;
   imageAlt: string;
   pageTo?: string;
+  quizTo?: string; // when set — primary button says "Get a quote" and links here
 };
 
 const services: ServiceSection[] = [
-  {
-    title: "Handyman Service",
-    eyebrow: "Everyday home tasks",
-    description:
-      "A practical all-in-one service for busy homeowners who do not want to spend weekends on minor repairs, mounting, assembly, and finish work. We handle the small jobs that keep your home working and looking right.",
-    bullets: [
-      "Drywall patching, painting touch-ups, door and window repairs, and hardware adjustments.",
-      "Furniture assembly, TV wall mounting, shelving, blinds, light fixtures, and appliance hookups.",
-      "Trim work, vanity and mirror installation, backsplash updates, and small carpentry improvements.",
-    ],
-    image: repairsMaintenanceImage,
-    imageAlt: "Handyman repairs and maintenance service",
-    pageTo: "/handyman",
-  },
   {
     title: "Kitchen Renovation",
     eyebrow: "Planned around daily use",
@@ -49,7 +38,7 @@ const services: ServiceSection[] = [
     ],
     image: kitchenImage,
     imageAlt: "Kitchen renovation service",
-    pageTo: "/kitchen",
+    quizTo: "/kitchen",
   },
   {
     title: "Bathroom Renovation",
@@ -63,7 +52,49 @@ const services: ServiceSection[] = [
     ],
     image: bathroomImage,
     imageAlt: "Bathroom renovation service",
-    pageTo: "/bathroom",
+    quizTo: "/bathroom",
+  },
+  {
+    title: "Water Filtration & Softening Systems",
+    eyebrow: "Cleaner water throughout the home",
+    description:
+      "Water treatment upgrades designed to improve daily water quality, protect fixtures, and support the way your home is actually used. We plan the installation cleanly around the existing plumbing and equipment layout.",
+    bullets: [
+      "Whole-home filtration and softening solutions matched to the needs of the property.",
+      "Installations planned to stay accessible, serviceable, and visually clean.",
+      "A practical upgrade for water quality, fixture longevity, and everyday comfort.",
+    ],
+    image: waterFiltrationImage,
+    imageAlt: "Water filtration and softening system service",
+    quizTo: "/water-filtration",
+  },
+  {
+    title: "Accent Wall Installation",
+    eyebrow: "Targeted visual upgrade",
+    description:
+      "Accent wall installation for homeowners who want a room to feel sharper without committing to a full remodel. We create focused feature surfaces that bring more structure, texture, and character into the space.",
+    bullets: [
+      "Trim, panel, texture, and finish-forward wall concepts tailored to the room.",
+      "A fast way to add depth and visual interest to living rooms, bedrooms, offices, or entry areas.",
+      "Installed with clean lines and finishing details that make the feature feel intentional.",
+    ],
+    image: accentWallImage,
+    imageAlt: "Accent wall installation service",
+    quizTo: "/accent-wall",
+  },
+  {
+    title: "Handyman Service",
+    eyebrow: "Everyday home tasks",
+    description:
+      "A practical all-in-one service for busy homeowners who do not want to spend weekends on minor repairs, mounting, assembly, and finish work. We handle the small jobs that keep your home working and looking right.",
+    bullets: [
+      "Drywall patching, painting touch-ups, door and window repairs, and hardware adjustments.",
+      "Furniture assembly, TV wall mounting, shelving, blinds, light fixtures, and appliance hookups.",
+      "Trim work, vanity and mirror installation, backsplash updates, and small carpentry improvements.",
+    ],
+    image: assemblyInstallationImage,
+    imageAlt: "Handyman repairs and maintenance service",
+    pageTo: "/handyman",
   },
   {
     title: "Tile Installation",
@@ -75,7 +106,7 @@ const services: ServiceSection[] = [
       "Level surfaces, precise joints, and careful finishing even in more difficult areas.",
       "Selections guided by your interior style, technical conditions, and budget.",
     ],
-    image: assemblyInstallationImage,
+    image: spaBathroomImage,
     imageAlt: "Tile installation service",
     pageTo: "/tile",
   },
@@ -92,32 +123,6 @@ const services: ServiceSection[] = [
     image: homeImprovementsImage,
     imageAlt: "Flooring installation service",
     pageTo: "/flooring",
-  },
-  {
-    title: "Water Filtration & Softening Systems",
-    eyebrow: "Cleaner water throughout the home",
-    description:
-      "Water treatment upgrades designed to improve daily water quality, protect fixtures, and support the way your home is actually used. We plan the installation cleanly around the existing plumbing and equipment layout.",
-    bullets: [
-      "Whole-home filtration and softening solutions matched to the needs of the property.",
-      "Installations planned to stay accessible, serviceable, and visually clean.",
-      "A practical upgrade for water quality, fixture longevity, and everyday comfort.",
-    ],
-    image: waterFiltrationImage,
-    imageAlt: "Water filtration and softening system service",
-  },
-  {
-    title: "Accent Wall Installation",
-    eyebrow: "Targeted visual upgrade",
-    description:
-      "Accent wall installation for homeowners who want a room to feel sharper without committing to a full remodel. We create focused feature surfaces that bring more structure, texture, and character into the space.",
-    bullets: [
-      "Trim, panel, texture, and finish-forward wall concepts tailored to the room.",
-      "A fast way to add depth and visual interest to living rooms, bedrooms, offices, or entry areas.",
-      "Installed with clean lines and finishing details that make the feature feel intentional.",
-    ],
-    image: accentWallImage,
-    imageAlt: "Accent wall installation service",
   },
   {
     title: "Full Remodel",
@@ -159,12 +164,62 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
+const QUIZ_SERVICES = [
+  { label: "Kitchen Renovation", to: "/kitchen" },
+  { label: "Bathroom Renovation", to: "/bathroom" },
+  { label: "Water Filtration", to: "/water-filtration" },
+  { label: "Accent Wall", to: "/accent-wall" },
+] as const;
+
+function QuizPickerModal({ onClose }: { onClose: () => void }) {
+  const navigate = useNavigate();
+
+  const pick = (to: string) => {
+    onClose();
+    navigate({ to });
+  };
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div
+        className="relative z-10 w-full max-w-sm rounded-2xl bg-background p-8 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground"
+        >
+          ✕
+        </button>
+        <h3 className="text-[18px] font-bold text-foreground">Choose your service</h3>
+        <p className="mt-1 text-[13px] text-muted-foreground">We'll take you to a short quiz to get your estimate.</p>
+        <div className="mt-6 grid gap-3">
+          {QUIZ_SERVICES.map((s) => (
+            <button
+              key={s.to}
+              type="button"
+              onClick={() => pick(s.to)}
+              className="w-full rounded-xl border-2 border-border px-5 py-4 text-left text-[15px] font-medium text-foreground transition-all hover:border-foreground/40 hover:bg-secondary/50"
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ServicesPage() {
   useReveal();
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   return (
     <>
       <Nav />
+      {pickerOpen && <QuizPickerModal onClose={() => setPickerOpen(false)} />}
       <main className="bg-background">
         <section className="border-b border-border/50 bg-[#f3ecdf] px-6 pb-14 pt-32 md:px-12 md:pb-20 md:pt-40">
           <div className="mx-auto max-w-[1200px]">
@@ -175,6 +230,18 @@ function ServicesPage() {
             <p className="type-slogan type-slogan-dark reveal mt-6 max-w-3xl">
               We serve Manatee County and Sarasota County, Florida with hands-on work carried out on-site. From handyman tasks and installation work to kitchen, bathroom, and full remodel scopes, each service is planned to stay practical, organized, and finish strong.
             </p>
+            <div className="reveal mt-10 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                className="btn-shimmer inline-flex h-11 items-center justify-center rounded-full px-6 text-[14px] font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Take a short quiz — save $1,000
+              </button>
+              <ContactCta variant="outline" className="border-foreground/20 px-6 text-[14px] text-foreground hover:bg-black/5">
+                Request estimate
+              </ContactCta>
+            </div>
           </div>
         </section>
 
@@ -205,19 +272,21 @@ function ServicesPage() {
                       ))}
                     </div>
                     <div className="mt-10 flex flex-wrap gap-3">
-                      {service.pageTo ? (
-                        <Link
-                          to={service.pageTo}
-                          className="inline-flex h-11 items-center justify-center rounded-full bg-[#1d1d1f] px-6 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
-                        >
-                          View service
-                        </Link>
+                      {service.quizTo ? (
+                        <>
+                          <Link
+                            to={service.quizTo}
+                            className="inline-flex h-11 items-center justify-center rounded-full bg-[#1d1d1f] px-6 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+                          >
+                            Get a quote
+                          </Link>
+                          <ContactCta variant="outline" className="border-black/15 px-6 text-[14px] text-foreground hover:bg-black/5">
+                            Request estimate
+                          </ContactCta>
+                        </>
                       ) : (
-                        <ContactCta className="px-6 text-[14px]">Get a quote</ContactCta>
+                        <ContactCta className="px-6 text-[14px]">Request estimate</ContactCta>
                       )}
-                      <ContactCta variant="outline" className="border-black/15 px-6 text-[14px] text-foreground hover:bg-black/5">
-                        Request estimate
-                      </ContactCta>
                     </div>
                   </div>
                 </div>

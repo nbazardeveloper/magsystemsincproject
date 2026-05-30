@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      contractor_leads: {
+        Row: {
+          id: string
+          full_name: string
+          company_name: string
+          phone: string
+          email: string
+          specialization: string
+          has_license: string
+          service_area: string
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          full_name: string
+          company_name: string
+          phone: string
+          email: string
+          specialization: string
+          has_license: string
+          service_area: string
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          full_name?: string
+          company_name?: string
+          phone?: string
+          email?: string
+          specialization?: string
+          has_license?: string
+          service_area?: string
+          status?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       contact_leads: {
         Row: {
           created_at: string

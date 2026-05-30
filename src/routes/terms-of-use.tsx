@@ -27,7 +27,7 @@ function TermsOfUsePage() {
       <main className="bg-background">
         <section className="mx-auto max-w-3xl px-6 pb-24 pt-36 md:px-12 md:pt-44">
           <h1 className="type-display type-display-dark">Terms of Use</h1>
-          <p className="mt-3 text-[13px] text-muted-foreground">Last updated: June 2025</p>
+          <p className="mt-3 text-[13px] text-muted-foreground">Last updated: May 2026</p>
 
           <div className="prose-legal mt-12 space-y-8 text-[15px] leading-7 text-foreground/80">
 
@@ -43,6 +43,9 @@ function TermsOfUsePage() {
               <p>
                 You may use this website for lawful purposes only. You agree not to use the site in any way that violates applicable local, state, national, or international laws or regulations. You agree not to transmit any unsolicited or unauthorized advertising or promotional material.
               </p>
+              <p className="mt-4">
+                Contractor registrations submitted through this website do not constitute a formal agreement or guarantee of work assignments. MAG System Inc reserves the right to accept or decline any contractor application at its sole discretion.
+              </p>
             </div>
 
             <div>
@@ -56,6 +59,9 @@ function TermsOfUsePage() {
               <h2 className="mb-3 text-[18px] font-semibold text-foreground">4. Estimates and Quotes</h2>
               <p>
                 Any estimates or cost ranges provided through our website or quiz forms are for informational purposes only and do not constitute a binding contract or guarantee of final pricing. Final pricing is determined after an on-site assessment by our team.
+              </p>
+              <p className="mt-4">
+                Visual examples, project photos, and style references shown on this website are for inspiration purposes only and may not reflect the exact outcome of your project.
               </p>
             </div>
 
@@ -87,6 +93,13 @@ function TermsOfUsePage() {
                 <a href="mailto:magsysteminc@gmail.com" className="text-foreground underline underline-offset-2 hover:opacity-70">
                   magsysteminc@gmail.com
                 </a>.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="mb-3 text-[18px] font-semibold text-foreground">9. Governing Law</h2>
+              <p>
+                These Terms of Use shall be governed by and construed in accordance with the laws of the State of Florida, United States. Any disputes arising under these terms shall be subject to the exclusive jurisdiction of the courts located in Sarasota County, Florida.
               </p>
             </div>
 

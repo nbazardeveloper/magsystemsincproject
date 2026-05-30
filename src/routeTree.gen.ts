@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WaterFiltrationRouteImport } from './routes/water-filtration'
 import { Route as TileRouteImport } from './routes/tile'
 import { Route as TermsOfUseRouteImport } from './routes/terms-of-use'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -18,12 +19,19 @@ import { Route as KitchenRouteImport } from './routes/kitchen'
 import { Route as HandymanRouteImport } from './routes/handyman'
 import { Route as FullRemodelRouteImport } from './routes/full-remodel'
 import { Route as FlooringRouteImport } from './routes/flooring'
+import { Route as ContractorsRouteImport } from './routes/contractors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BathroomRouteImport } from './routes/bathroom'
+import { Route as AccentWallRouteImport } from './routes/accent-wall'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 
+const WaterFiltrationRoute = WaterFiltrationRouteImport.update({
+  id: '/water-filtration',
+  path: '/water-filtration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TileRoute = TileRouteImport.update({
   id: '/tile',
   path: '/tile',
@@ -69,6 +77,11 @@ const FlooringRoute = FlooringRouteImport.update({
   path: '/flooring',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContractorsRoute = ContractorsRouteImport.update({
+  id: '/contractors',
+  path: '/contractors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -77,6 +90,11 @@ const ContactRoute = ContactRouteImport.update({
 const BathroomRoute = BathroomRouteImport.update({
   id: '/bathroom',
   path: '/bathroom',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccentWallRoute = AccentWallRouteImport.update({
+  id: '/accent-wall',
+  path: '/accent-wall',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -97,8 +115,10 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accent-wall': typeof AccentWallRoute
   '/bathroom': typeof BathroomRoute
   '/contact': typeof ContactRoute
+  '/contractors': typeof ContractorsRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
@@ -108,13 +128,16 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
+  '/water-filtration': typeof WaterFiltrationRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accent-wall': typeof AccentWallRoute
   '/bathroom': typeof BathroomRoute
   '/contact': typeof ContactRoute
+  '/contractors': typeof ContractorsRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
@@ -124,14 +147,17 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
+  '/water-filtration': typeof WaterFiltrationRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accent-wall': typeof AccentWallRoute
   '/bathroom': typeof BathroomRoute
   '/contact': typeof ContactRoute
+  '/contractors': typeof ContractorsRoute
   '/flooring': typeof FlooringRoute
   '/full-remodel': typeof FullRemodelRoute
   '/handyman': typeof HandymanRoute
@@ -141,6 +167,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/terms-of-use': typeof TermsOfUseRoute
   '/tile': typeof TileRoute
+  '/water-filtration': typeof WaterFiltrationRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -148,8 +175,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/accent-wall'
     | '/bathroom'
     | '/contact'
+    | '/contractors'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
@@ -159,13 +188,16 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms-of-use'
     | '/tile'
+    | '/water-filtration'
     | '/admin/dashboard'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/accent-wall'
     | '/bathroom'
     | '/contact'
+    | '/contractors'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
@@ -175,13 +207,16 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms-of-use'
     | '/tile'
+    | '/water-filtration'
     | '/admin/dashboard'
     | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/accent-wall'
     | '/bathroom'
     | '/contact'
+    | '/contractors'
     | '/flooring'
     | '/full-remodel'
     | '/handyman'
@@ -191,14 +226,17 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms-of-use'
     | '/tile'
+    | '/water-filtration'
     | '/admin/dashboard'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccentWallRoute: typeof AccentWallRoute
   BathroomRoute: typeof BathroomRoute
   ContactRoute: typeof ContactRoute
+  ContractorsRoute: typeof ContractorsRoute
   FlooringRoute: typeof FlooringRoute
   FullRemodelRoute: typeof FullRemodelRoute
   HandymanRoute: typeof HandymanRoute
@@ -208,12 +246,20 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   TermsOfUseRoute: typeof TermsOfUseRoute
   TileRoute: typeof TileRoute
+  WaterFiltrationRoute: typeof WaterFiltrationRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/water-filtration': {
+      id: '/water-filtration'
+      path: '/water-filtration'
+      fullPath: '/water-filtration'
+      preLoaderRoute: typeof WaterFiltrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tile': {
       id: '/tile'
       path: '/tile'
@@ -277,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FlooringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contractors': {
+      id: '/contractors'
+      path: '/contractors'
+      fullPath: '/contractors'
+      preLoaderRoute: typeof ContractorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -289,6 +342,13 @@ declare module '@tanstack/react-router' {
       path: '/bathroom'
       fullPath: '/bathroom'
       preLoaderRoute: typeof BathroomRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accent-wall': {
+      id: '/accent-wall'
+      path: '/accent-wall'
+      fullPath: '/accent-wall'
+      preLoaderRoute: typeof AccentWallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -317,8 +377,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccentWallRoute: AccentWallRoute,
   BathroomRoute: BathroomRoute,
   ContactRoute: ContactRoute,
+  ContractorsRoute: ContractorsRoute,
   FlooringRoute: FlooringRoute,
   FullRemodelRoute: FullRemodelRoute,
   HandymanRoute: HandymanRoute,
@@ -328,6 +390,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   TermsOfUseRoute: TermsOfUseRoute,
   TileRoute: TileRoute,
+  WaterFiltrationRoute: WaterFiltrationRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
