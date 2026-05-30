@@ -50,11 +50,12 @@ function ContractorsPage() {
   const [specialization, setSpecialization] = useState("");
   const [hasLicense, setHasLicense] = useState<License | "">("");
   const [serviceArea, setServiceArea] = useState<Area | "">("");
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err">("idle");
   const [err, setErr] = useState("");
 
   const canSubmit =
-    fullName && companyName && phone && email && specialization && hasLicense && serviceArea;
+    fullName && companyName && phone && email && specialization && hasLicense && serviceArea && agreedToPrivacy;
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -213,6 +214,26 @@ function ContractorsPage() {
                 {status === "err" && (
                   <p className="text-[13px] text-destructive">{err}</p>
                 )}
+
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={agreedToPrivacy}
+                    onChange={(e) => setAgreedToPrivacy(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-primary cursor-pointer"
+                  />
+                  <span className="text-[13px] text-muted-foreground leading-snug">
+                    I have read and agree to the{" "}
+                    <a
+                      href="/privacy-policy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground underline underline-offset-2 hover:opacity-70"
+                    >
+                      Privacy Policy
+                    </a>
+                  </span>
+                </label>
 
                 <div className="pt-2">
                   <Button
